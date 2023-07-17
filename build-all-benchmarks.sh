@@ -8,11 +8,7 @@ source paths.sh
 curDIR=$PWD
 
 for dir in $BENCHMARK_DIRS; do
-
     cd $BENCHMARK_HOME_DIR/$dir
-
-    pwd 
-    
     rm -r bin
     mkdir bin
 
@@ -20,13 +16,16 @@ for dir in $BENCHMARK_DIRS; do
     make 'MODE=na'
     mv $dir.na bin/
     
+    # make clean
+    # make 'MODE=do'
+    # mv $dir.do bin/
+    
     make clean
     make 'MODE=enc'
     mv $dir.enc bin/
     
     make clean
     cd $curDIR
-
 done
 
 

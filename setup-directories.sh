@@ -62,18 +62,18 @@ if [[ "$opt" = "y" ]]; then
     echo "" 
 fi
 
-echo -n "Would you like to install a placeholder for the SE type library? (y/n): " 
-read opt
-if [[ "$opt" = "y" ]]; then
-    cd ..
-    printf "%%%% ${GREEN}Installing SE type library from git${NC}\n"
-    git clone git@bitbucket.org:emtdprivacy/encrypted-datatype-library.git
-    echo "%% Install completed." 
-    git checkout vip-bench-support
-    cd $curDIR
-    printf "%%%% ${RED}ERROR:${NC} This is a placeholder repo!\n"
-    echo "" 
-fi
+# echo -n "Would you like to install a placeholder for the SE type library? (y/n): " 
+# read opt
+# if [[ "$opt" = "y" ]]; then
+#     cd ..
+#     printf "%%%% ${GREEN}Installing SE type library from git${NC}\n"
+#     git clone git@bitbucket.org:emtdprivacy/encrypted-datatype-library.git
+#     echo "%% Install completed." 
+#     git checkout vip-bench-support
+#     cd $curDIR
+#     printf "%%%% ${RED}ERROR:${NC} This is a placeholder repo!\n"
+#     echo "" 
+# fi
 
 
 
