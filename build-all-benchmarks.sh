@@ -3,13 +3,16 @@
 # import paths 
 # REQUIRES variables for benchmark home directory and 
 # list of benchmarks
-source path.sh
+source paths.sh
 
 curDIR=$PWD
 
 for dir in $BENCHMARK_DIRS; do
 
-    cd $dir
+    cd $BENCHMARK_HOME_DIR/$dir
+
+    pwd 
+    
     rm -r bin
     mkdir bin
 

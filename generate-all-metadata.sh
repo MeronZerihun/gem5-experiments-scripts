@@ -15,6 +15,8 @@ for dir in $BENCHMARK_DIRS; do
     echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
     echo "%% GENERATING METADATA for" $dir
 
+    cp generate-metadata.sh $BENCHMARK_HOME_DIR/$dir/
+
     cd $BENCHMARK_HOME_DIR/$dir
     objdump -dS bin/$dir.enc > bin/$dir.enc.dump
 
