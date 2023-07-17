@@ -16,9 +16,23 @@ if [[ "$opt" = "y" ]]; then
     cd ../gem5-versions/
     printf "%%%% ${GREEN}Installing gem5 simulator from git${NC}\n"
     git clone git@bitbucket.org:se-integrity/se-gem5.git
+    cd se-gem5
+    git checkout opt-se-128
     cd $curDIR
     echo "%% Install completed." 
     printf "%% ${RED}WARNING:${NC} Checkout correct branch and build gem5 before using\n"
+    echo "" 
+fi
+
+echo -n "Would you like to build se-gem5? (y/n): " 
+read opt
+if [[ "$opt" = "y" ]]; then
+    cd ../gem5-versions/se-gem5
+    printf "%%%% ${GREEN}Building se-gem5 on X86 with eight threads${NC}\n"
+    python2 `which scons` build/X86/gem5.opt -j8
+    # CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8 <-- This is the command I used to use, 
+    # but it is giving me errors on the new poisonivy update...
+    echo "%% Build completed." 
     echo "" 
 fi
 
