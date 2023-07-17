@@ -53,6 +53,7 @@ if [[ "$opt" = "y" ]]; then
     cd ..
     printf "%%%% ${GREEN}Installing benchmarks from git${NC}\n"
     git clone git@bitbucket.org:se-integrity/se-integrity-benchmarks.git
+    cd se-integrity-benchmarks
     ln -sf configs/config.h.se config.h
     ln -sf configs/config.mk.se config.mk
     echo "%% Install completed." 
