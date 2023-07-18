@@ -6,6 +6,9 @@
 source paths.sh
 
 
+# Example Usage: 
+# ./run-gem5-experiments.sh --gem5=priv --bmk_ext=enc --gem5_branch=naive-se-128
+
 # parse script arguments 
 # (these arguments can be updated to match project, 
 #  but any changes should also be reflected in other scripts)
@@ -37,6 +40,7 @@ done
 # start runs for each benchmark
 curDIR=$PWD
 for dir in $BENCHMARK_DIRS; do
+    echo "" 
     # copy run.sh into benchmark dir
     cp common/run.sh $BENCHMARK_HOME_DIR/$dir/run.sh
     # start run.sh 
