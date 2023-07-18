@@ -2,17 +2,7 @@
 
 curDIR=$PWD
 
-# color variables
-RED='\033[01;31m'
-GREEN='\033[0;32m'
-GREY='\033[00;33m'
-NC='\033[0m' # No Color
 echo ""
-# other formatting
-indent() { sed 's/^/    /g'; }
-
-
-
 echo -n "Would you like to install se-gem5? (y/n): " 
 read opt
 if [[ "$opt" = "y" ]]; then

@@ -1,8 +1,4 @@
 #!/bin/bash
-
-# import paths 
-# REQUIRES variables for benchmark home directory and 
-# list of benchmarks
 source paths.sh
 
 

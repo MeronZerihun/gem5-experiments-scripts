@@ -1,21 +1,27 @@
 #!/bin/bash
-
-# import paths 
-source path.sh
+source paths.sh
 
 
 
 # parse script arguments 
-# (these arguments can be updated to match project, 
-#  but any changes should also be reflected in other scripts)
 gem5=${gem5:-clean} #clean, priv
 bmk_ext=${bmk_ext:-na} #na, enc
 gem5_branch=${gem5_branch:-} #naive-se-128, naive-se-256, opt-se-128, opt-se-256
 date=${date:-} #date of benchmark run
+
+if [ $# != 4 ]; then
+   printf "%%%% ${RED}ERROR:${NC} Invalid arguments\n"
+   printf "%%%% Example Usage: ./print-all-gem5-results.sh --gem5=priv --bmk_ext=enc --gem5_branch=naive-se-128 --date=2023.07.18\n"
+   exit 1
+fi
+
 while [ $# -gt 0 ]; do
   case "$1" in
     --gem5=*)
       gem5="${1#*=}"
+      ;;
+    --date=*)
+      date="${1#*=}"
       ;;
     --bmk_ext=*)
       bmk_ext="${1#*=}"
@@ -24,19 +30,16 @@ while [ $# -gt 0 ]; do
       gem5_branch="${1#*=}"
       ;;
     *)
-      printf "***************************\n"
-      printf "* Error: Invalid argument.*\n"
-      printf "***************************\n"
+      printf "%%%% ${RED}ERROR:${NC} Invalid arguments\n"
+      printf "%%%% Example Usage: ./print-all-gem5-results.sh --gem5=priv --bmk_ext=enc --gem5_branch=naive-se-128 --date=2023.07.18\n"
       exit 1
   esac
   shift
 done
 
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-GREY='\033[0;33m'
-NC='\033[0m' # No Color
+
+
 python3 common/get-stats.py print $PWD > stats.txt
 
 
@@ -53,7 +56,7 @@ for dir in $BENCHMARK_DIRS; do
     curDIR=$PWD
     BIN_DIR=$BENCHMARK_HOME_DIR/$dir/bin
     RESULTS_DIR=$BENCHMARK_HOME_DIR/$dir/results/m5out-$gem5-$gem5_branch-$bmk_ext-$date
-    python3 common/get-stats.py $dir $RESULTS_DIR  >> stats.txt
+    python3 common/get-stats.py $dir $HOME_DIR/gem5-experiments-scripts/$RESULTS_DIR  >> stats.txt
 
 
     # validate gem5 run output using diff
@@ -62,9 +65,9 @@ for dir in $BENCHMARK_DIRS; do
     else
         DIFF="diff" 
     fi
-    ./$BIN_DIR/$dir-na.do > FOO.out 2> FOO.err
+    ./$BIN_DIR/$dir.na > FOO.out 2> FOO.err
     printf "   ${GREEN}$dir${NC} output diff:\n"
-    $DIFF FOO.out $RESULTS_DIR/$dir-$EXT.do.out | grep -v "[VIP]" | sed 's/^/        /' #Ignore lines for rdtsc cycle count...
+    $DIFF FOO.out $RESULTS_DIR/$dir.$bmk_ext.out | grep -v "[VIP]" | sed 's/^/        /' #Ignore lines for rdtsc cycle count...
     rm FOO.out
     rm FOO.err
 
@@ -76,13 +79,13 @@ for dir in $BENCHMARK_DIRS; do
 
     # print cycle count for gem5 output
     printf "   ${GREEN}$dir${NC} cycle count:\n"
-    IFS=':' read -ra vip <<<  $(grep "VIP" $RESULTS_DIR/$dir-$EXT.do.out)
+    IFS=':' read -ra vip <<<  $(grep "VIP" $RESULTS_DIR/$dir.$bmk_ext.out)
     IFS=' ' read -ra vip2 <<<  ${vip[1]}
     echo -n ${vip2[0]} "-- " | sed 's/^/        /'
-    grep "VIP" $RESULTS_DIR//$dir-$EXT.do.out
+    grep "VIP" $RESULTS_DIR/$dir.$bmk_ext.out
 
     IFS=' ' read -ra stat <<<  $( grep "system.cpu.numCycles" $RESULTS_DIR/stats.txt | sed -n '2 p')
-    echo -n ${stat[1]} "-- " | sed 's/^/        /'
+    echo -n ${stat[1]} "-- " #| sed 's/^/        /'
     grep "system.cpu.numCycles" $RESULTS_DIR/stats.txt | sed -n '2 p' 
 
     if test ${vip2[0]} != ${stat[1]}; then  
@@ -99,3 +102,4 @@ done
 #print aggregate results via python in CSV format
 echo ""
 cat stats.txt
+rm stats.txt

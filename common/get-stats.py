@@ -53,21 +53,23 @@ if "print" in dir:
 
 else:
     # Parse results file
-    filePaths = glob.glob(os.path.join(m5out_path,'stats.txt'))
+    filePaths = m5out_path + '/stats.txt'
+    print(filePaths)
     stats = stats_titles.copy()
     if filePaths:
         # Scan file for stats_titles of interest
-        fp = open(filePaths[0], 'r')
+        fp = open(filePaths, 'r')
         line = fp.readline() # Skip header
         line = fp.readline() # Skip header
         line = fp.readline()
         cont = True
-        while line and cont:
-            if"Begin Simulation Statistics" in line:
-                cont = False
-            line = fp.readline()
-        
-        cont = True
+        # LB: Commenting out following lines since we aren't doing kernel measurments/3 stat dumps
+        # while line and cont:
+        #    if"Begin Simulation Statistics" in line:
+        #        cont = False
+        #    line = fp.readline()
+        #
+        #cont = True
         while line and cont:
             if"Begin Simulation Statistics" in line:
                 cont = False
@@ -81,9 +83,8 @@ else:
                     stats[idx] = stat_value
             line = fp.readline()
         fp.close()
-
     # Print found stats_titles for this benchmark
-    print("{0},\t{1}".format(dir, run_name), end='')
+    print("{0},\t{1}".format(dir, m5out_path), end='')
     for i in range(stat_count):
         print(",\t{0}".format(stats[i]), end='')
     print("\n", end='')

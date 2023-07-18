@@ -1,20 +1,19 @@
 #!/bin/bash
-
-# import paths 
-# REQUIRES variables for benchmark home directory and 
-# list of benchmarks
 source paths.sh
 
 
-# Example Usage: 
-# ./run-gem5-experiments.sh --gem5=priv --bmk_ext=enc --gem5_branch=naive-se-128
 
 # parse script arguments 
-# (these arguments can be updated to match project, 
-#  but any changes should also be reflected in other scripts)
 gem5=${gem5:-clean} #clean, priv
 bmk_ext=${bmk_ext:-na} #na, enc
 gem5_branch=${gem5_branch:-} #naive-se-128, naive-se-256, opt-se-128, opt-se-256
+
+if [ $# != 3 ]; then
+   printf "%%%% ${RED}ERROR:${NC} Invalid arguments\n"
+   printf "%%%% Example Usage: ./run-gem5-experiments.sh --gem5=priv --bmk_ext=enc --gem5_branch=naive-se-128\n"
+   exit 1
+fi
+
 while [ $# -gt 0 ]; do
   case "$1" in
     --gem5=*)
@@ -27,10 +26,9 @@ while [ $# -gt 0 ]; do
       gem5_branch="${1#*=}"
       ;;
     *)
-      printf "***************************\n"
-      printf "* Error: Invalid argument.*\n"
-      printf "***************************\n"
-      exit 1
+     printf "%%%% ${RED}ERROR:${NC} Invalid arguments\n"
+     printf "%%%% Example Usage: ./run-gem5-experiments.sh --gem5=priv --bmk_ext=enc --gem5_branch=naive-se-128\n"
+     exit 1
   esac
   shift
 done
