@@ -6,10 +6,11 @@ source paths.sh
 # move pin results into corresponding file in each benchmark dir
 curDIR=$PWD
 
+echo "%% Generating metadata for all benchmarks... "
 for dir in $BENCHMARK_DIRS; do
 
-    echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-    echo "%% GENERATING METADATA for" $dir
+    
+    echo "%% Generating for" $dir
 
     cp common/generate-metadata.sh $BENCHMARK_HOME_DIR/$dir/
 
@@ -28,7 +29,5 @@ for dir in $BENCHMARK_DIRS; do
     rm -r out/
     cd $curDIR
 
-    echo "%% Metadata CONCLUDED"
-    echo "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%"
-
+    echo "%%      done."
 done

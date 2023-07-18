@@ -58,7 +58,6 @@ for dir in $BENCHMARK_DIRS; do
     RESULTS_DIR=$BENCHMARK_HOME_DIR/$dir/results/m5out-$gem5-$gem5_branch-$bmk_ext-$date
     python3 common/get-stats.py $dir $HOME_DIR/gem5-experiments-scripts/$RESULTS_DIR  >> stats.txt
 
-
     # validate gem5 run output using diff
     if [ "$dir" = "kepler-calc" ]; then
         DIFF="numdiff -r 0.001"
@@ -67,28 +66,31 @@ for dir in $BENCHMARK_DIRS; do
     fi
     ./$BIN_DIR/$dir.na > FOO.out 2> FOO.err
     printf "   ${GREEN}$dir${NC} output diff:\n"
-    $DIFF FOO.out $RESULTS_DIR/$dir.$bmk_ext.out | grep -v "[VIP]" | sed 's/^/        /' #Ignore lines for rdtsc cycle count...
+    $DIFF FOO.out $RESULTS_DIR/$dir.$bmk_ext.out | grep -v "[VIP]"  #Ignore lines for rdtsc cycle count...
     rm FOO.out
     rm FOO.err
 
 
     # print any errors or warnings in gem5 output file
     printf "   ${GREEN}$dir${NC} error grep:\n"
-    grep "ERROR" $RESULTS_DIR/debug.out | sed 's/^/        /'
+    grep "ERROR" $RESULTS_DIR/debug.out 
 
 
     # print cycle count for gem5 output
     printf "   ${GREEN}$dir${NC} cycle count:\n"
     IFS=':' read -ra vip <<<  $(grep "VIP" $RESULTS_DIR/$dir.$bmk_ext.out)
     IFS=' ' read -ra vip2 <<<  ${vip[1]}
+    if [ -z "${vip2[0]}" ]; then
+      echo "        --         NOT FOUND -- Benchmark output does not include cycle count, no stopwatch used"
+    fi
     echo -n ${vip2[0]} "-- " | sed 's/^/        /'
     grep "VIP" $RESULTS_DIR/$dir.$bmk_ext.out
 
-    IFS=' ' read -ra stat <<<  $( grep "system.cpu.numCycles" $RESULTS_DIR/stats.txt | sed -n '2 p')
-    echo -n ${stat[1]} "-- " #| sed 's/^/        /'
-    grep "system.cpu.numCycles" $RESULTS_DIR/stats.txt | sed -n '2 p' 
+    IFS=' ' read -ra stat <<<  $( grep "system.cpu.numCycles" $RESULTS_DIR/stats.txt ) #| sed -n '2 p')
+    echo -n ${stat[1]} "-- " | sed 's/^/        /'
+    grep "system.cpu.numCycles" $RESULTS_DIR/stats.txt #| sed -n '2 p' 
 
-    if test ${vip2[0]} != ${stat[1]}; then  
+    if [ test ${vip2[0]} != ${stat[1]} ]; then  
         printf "        ${RED}cycle counts differ${NC}\n"
     fi
 

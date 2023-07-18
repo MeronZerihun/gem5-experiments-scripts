@@ -1,4 +1,4 @@
-HOME_DIR=~/se-integrity
+HOME_DIR=~/integrity
 GEM5_DIR=~/se-integrity/gem5-versions/se-gem5
 CLEAN_GEM5_DIR=../gem5-versions/clean-gem5
 BENCHMARK_HOME_DIR=../se-integrity-benchmarks
