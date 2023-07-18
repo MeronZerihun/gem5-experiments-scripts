@@ -37,7 +37,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 GREY='\033[0;33m'
 NC='\033[0m' # No Color
-python3 get-stats.py print $PWD > stats.txt
+python3 common/get-stats.py print $PWD > stats.txt
 
 
 # loop over each benchmark and validate gem5 results 
@@ -53,7 +53,7 @@ for dir in $BENCHMARK_DIRS; do
     curDIR=$PWD
     BIN_DIR=$BENCHMARK_HOME_DIR/$dir/bin
     RESULTS_DIR=$BENCHMARK_HOME_DIR/$dir/results/m5out-$gem5-$gem5_branch-$bmk_ext-$date
-    python3 get-stats.py $dir $RESULTS_DIR  >> stats.txt
+    python3 common/get-stats.py $dir $RESULTS_DIR  >> stats.txt
 
 
     # validate gem5 run output using diff

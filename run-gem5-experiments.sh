@@ -38,7 +38,7 @@ done
 curDIR=$PWD
 for dir in $BENCHMARK_DIRS; do
     # copy run.sh into benchmark dir
-    cp run.sh $BENCHMARK_HOME_DIR/$dir/run.sh
+    cp common/run.sh $BENCHMARK_HOME_DIR/$dir/run.sh
     # start run.sh 
     cd $BENCHMARK_HOME_DIR/$dir
     ./run.sh --bmk=$dir --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch| tee results/run-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d').out &
