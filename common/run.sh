@@ -2,7 +2,7 @@
 
 # import paths 
 # REQUIRES variables for GEM5_DIR
-source ../../gem5-experiments-scripts/path.sh
+source ../../gem5-experiments-scripts/paths.sh
 
 
 # parse script arguments 
@@ -10,7 +10,9 @@ source ../../gem5-experiments-scripts/path.sh
 #  but any changes should also be reflected in other scripts)
 gem5=${gem5:-clean} #clean, priv
 bmk_ext=${bmk_ext:-na} #na, enc
-gem5_branch=${gem5_branch:-} #naive-se-128, naive-se-256, opt-se-128, opt-se-256
+gem5_branch=${gem5_branch:-} #naive-se-128, naive-se-256, opt-se-128, opt-se-256i
+bmk=${bmk:-} #name of bmk dir
+
 while [ $# -gt 0 ]; do
   case "$1" in
     --gem5=*)
@@ -22,6 +24,9 @@ while [ $# -gt 0 ]; do
     --gem5_branch=*)
       gem5_branch="${1#*=}"
       ;;
+    --bmk=*)
+      bmk="${1#*=}"
+      ;;
     *)
       printf "***************************\n"
       printf "* Error: Invalid argument.*\n"
@@ -32,6 +37,8 @@ while [ $# -gt 0 ]; do
 done
 
 
+
+mkdir -p results
 BIN_DIR=bin
 RESULT_DIR=results
 CUR_DIR=$PWD
@@ -48,7 +55,16 @@ if [[ "$gem5" != "$clean" ]]; then
 fi
 
 
-CONFIG_FILE=$GEM5_DIR/configs/UPDATE_ME/$bmk-$ext.py
+CONFIG_FILE=$GEM5_DIR/configs/priv/vip-bench/$bmk-$bmk_ext.py
+
+# color variables
+RED='\033[01;31m'
+GREEN='\033[0;32m'
+GREY='\033[00;33m'
+NC='\033[0m' # No Color
+printf "%%%% ${RED}WARNING:${NC} gem5 configuration files have not been update for se-integrity. Using old config files.\n"
+
+
 
 cd $BIN_DIR
 

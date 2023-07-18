@@ -3,7 +3,7 @@
 # import paths 
 # REQUIRES variables for benchmark home directory and 
 # list of benchmarks
-source path.sh
+source paths.sh
 
 
 # parse script arguments 
@@ -41,6 +41,7 @@ for dir in $BENCHMARK_DIRS; do
     cp common/run.sh $BENCHMARK_HOME_DIR/$dir/run.sh
     # start run.sh 
     cd $BENCHMARK_HOME_DIR/$dir
-    ./run.sh --bmk=$dir --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch| tee results/run-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d').out &
+    mkdir -p results
+    ./run.sh --bmk=$dir --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch | tee results/run-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d').out &
     cd $curDIR
 done

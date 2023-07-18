@@ -23,7 +23,6 @@ for dir in $BENCHMARK_DIRS; do
     cd $curDIR
     cd $PIN_DIR/source/tools/InsnTagging
     mkdir out
-    echo "HERE"
 
     ./get_insn_taint.sh ../../../$BENCHMARK_HOME_DIR/$dir/bin/$dir.enc $dir.enc
     

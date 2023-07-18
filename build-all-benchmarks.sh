@@ -13,7 +13,7 @@ for dir in $BENCHMARK_DIRS; do
     mkdir bin
 
     make clean
-    make 'MODE=na'
+    make 'MODE=na' CC=gcc-5 CXX=g++-5
     mv $dir.na bin/
     
     # make clean
@@ -21,7 +21,7 @@ for dir in $BENCHMARK_DIRS; do
     # mv $dir.do bin/
     
     make clean
-    make 'MODE=enc'
+    make 'MODE=enc' CC=gcc-5 CXX=g++-5
     mv $dir.enc bin/
     
     make clean
