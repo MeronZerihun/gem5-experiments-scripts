@@ -74,4 +74,4 @@ $GEM5_DIR/build/X86/gem5.opt $EXTRA_FLAG --debug-file=debug.out --stats-file=sta
 
 cd $CUR_DIR
 
-mv $BIN_DIR/m5out $RESULT_DIR/m5out-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d'+%H:%M:%S)
+mv $BIN_DIR/m5out $RESULT_DIR/m5out-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
