@@ -6,6 +6,9 @@ source paths.sh
 # move pin results into corresponding file in each benchmark dir
 curDIR=$PWD
 
+# Build Instruction Taint tracking tool
+$PIN_DIR/source/tools/InsnTagging/build_tool.sh
+
 echo "%% Generating metadata for all benchmarks... "
 for dir in $BENCHMARK_DIRS; do
 
@@ -21,12 +24,8 @@ for dir in $BENCHMARK_DIRS; do
     cd $PIN_DIR/source/tools/InsnTagging
     mkdir out
 
-    # ./get_insn_taint.sh ../../../$BENCHMARK_HOME_DIR/$dir/bin/$dir.enc $dir.enc
     ./get_insn_taint.sh $BENCHMARK_HOME_DIR/$dir/bin/$dir.enc $dir.enc
 
-    
-    # mv out/$dir.enc.taints ../../../$BENCHMARK_HOME_DIR/$dir/bin/
-    # mv out/$dir.enc.out    ../../../$BENCHMARK_HOME_DIR/$dir/bin/$dir.enc.pin
     mv out/$dir.enc.taints $BENCHMARK_HOME_DIR/$dir/bin/
     mv out/$dir.enc.out    $BENCHMARK_HOME_DIR/$dir/bin/$dir.enc.pin
 
