@@ -1,9 +1,9 @@
 # Directory setup
-HOME_DIR=~/Integrity/ZeroRISC-128
-GEM5_DIR=~/Integrity/ZeroRISC-128/se-gem5
-CLEAN_GEM5_DIR=~/Integrity/ZeroRISC-128/clean-gem5
-BENCHMARK_HOME_DIR=~/Integrity/ZeroRISC-128/se-integrity-benchmarks
-PIN_DIR=~/Integrity/ZeroRISC-128/encrypted-datatype-taint-tracking
+HOME_DIR=~/ZeroRISC
+GEM5_DIR=~/ZeroRISC/se-gem5
+CLEAN_GEM5_DIR=~/ZeroRISC/clean-gem5
+BENCHMARK_HOME_DIR=~/ZeroRISC/se-integrity-benchmarks
+PIN_DIR=~/ZeroRISC/encrypted-datatype-taint-tracking
 
 
 # Benchmarks without failing ones (mnist-cnn, edit-distance, flood-fill)
