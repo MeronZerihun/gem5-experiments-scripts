@@ -35,8 +35,9 @@ CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
 
 ## Running ZeroRISC simulation 
 ```bash
-cd /Integrity/ZeroRISC-128
-./gem5-experiments-scripts/run-all.sh
+cd /
+# Run ZeroRISC-128 QARMA Configuration
+./gem5-experiments-scripts/run-all.sh opt-se-128-QARMA
 ```
 
 # Modifying gem5
