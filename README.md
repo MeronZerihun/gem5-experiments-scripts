@@ -39,6 +39,12 @@ cd /Integrity/ZeroRISC-128
 ./gem5-experiments-scripts/run-all.sh
 ```
 
+# Modifying gem5
+I have found issues committing changes to se-gem5 due to a style checker throwing invalid line-length and whitespaces error. I have tried word wrapping but it doesn't seem to help so a work around it will be to disable the pre-commit hook as follows:
+```bash
+git commit -m [your-message] --no-verify
+```
+
 ## Experiments 
 
 #### Missing benchmarks
