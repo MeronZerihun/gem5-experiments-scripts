@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Remove previous sim results
+# rm -rf se-integrity-benchmarks/*/results/*
+
 # Build and run gem5
 cd $PWD/se-gem5
 git checkout $1
