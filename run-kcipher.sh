@@ -1,11 +1,9 @@
 #!/bin/bash
 source ~/ZeroRISC/gem5-experiments-scripts/paths.sh
 
-AES_128=40
+
 KCIPHER_128=3
 KCIPHER_320=4
-
-ENC_LATENCY=$AES_128
 
 if [ "$1" == "na" ]; then
     # Build gem5
@@ -21,6 +19,7 @@ if [ "$1" == "na" ]; then
     
 fi
 if [ "$1" == "se" ]; then
+    ENC_LATENCY=$KCIPHER_128
     # Build gem5
     cd $GEM5_DIR
     git checkout opt-se-128
@@ -41,6 +40,7 @@ if [ "$1" == "se" ]; then
 
 fi
 if [ "$1" == "se-ext" ]; then
+    ENC_LATENCY=$KCIPHER_320
     # Build gem5
     cd $GEM5_DIR
     git checkout opt-se-ext-320

@@ -6,8 +6,7 @@ gem5=${gem5:-clean} #clean, priv
 bmk_ext=${bmk_ext:-na} #na, enc
 gem5_branch=${gem5_branch:-} #opt-se-128, opt-se-ext-320
 enc=${enc:-}
-args=$#
-
+cmd_args=$#
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -29,13 +28,13 @@ while [ $# -gt 0 ]; do
 done
 
 if [ $gem5 == "priv" ]; then
-  if [ $args != 4 ]; then
+  if [ $cmd_args != 4 ]; then
     printf "%%%% ${RED}ERROR:${NC} Invalid arguments\n"
     printf "%%%% Example Usage: ./run-gem5-experiments.sh --gem5=priv --bmk_ext=enc --gem5_branch=opt-se-128 --enc=40\n"
     exit 1
   fi
 else
-  if [ $args != 3 ]; then
+  if [ $cmd_args != 3 ]; then
     printf "%%%% ${RED}ERROR:${NC} Invalid arguments\n"
     printf "%%%% Example Usage: ./run-gem5-experiments.sh --gem5=clean --bmk_ext=enc --gem5_branch=opt-se-128\n"
     exit 1

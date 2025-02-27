@@ -40,8 +40,6 @@ while [ $# -gt 0 ]; do
   shift
 done
 
-
-
 mkdir -p results
 BIN_DIR=bin
 RESULT_DIR=results
