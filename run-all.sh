@@ -2,8 +2,10 @@
 source ~/ZeroRISC/gem5-experiments-scripts/paths.sh
 
 
-KCIPHER_128=3
-KCIPHER_320=4
+KCIPHER_128=3 
+KCIPHER_320=4 
+# Auth. encryption using OCB mode: https://eprint.iacr.org/2001/026.pdf
+KCIPHER_192_OCB=19 
 
 if [ "$1" == "na" ]; then
     # Build gem5
@@ -19,7 +21,6 @@ if [ "$1" == "na" ]; then
     
 fi
 if [ "$1" == "se" ]; then
-    ENC_LATENCY=$KCIPHER_128
     # Build gem5
     cd $GEM5_DIR
     git checkout opt-se-128
@@ -36,11 +37,10 @@ if [ "$1" == "se" ]; then
     ./generate-all-metadata.sh
     
     # Run gem5
-    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-128 --bmk_ext=enc --enc=$ENC_LATENCY
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-128 --bmk_ext=enc --enc=$KCIPHER_128
 
 fi
 if [ "$1" == "se-ext" ]; then
-    ENC_LATENCY=$KCIPHER_320
     # Build gem5
     cd $GEM5_DIR
     git checkout opt-se-ext-320
@@ -57,19 +57,19 @@ if [ "$1" == "se-ext" ]; then
     ./generate-all-metadata.sh
     
     # Run gem5
-    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-ext-320 --bmk_ext=enc --enc=$ENC_LATENCY
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-ext-320 --bmk_ext=enc --enc=$KCIPHER_320
 
 fi
-if [ "$1" == "prefetch" ]; then
+if [ "$1" == "se-ext-ae" ]; then
     # Build gem5
     cd $GEM5_DIR
-    git checkout perfect-prefetch
+    git checkout opt-se-ext-192-ae
     CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
 
-    # Configure Encrypted library
+    # Configure Encrypted Library
     cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.prefetch config.mk
-    ln -sf configs/config.h.prefetch config.h
+    ln -sf configs/config.mk.se-ext config.mk
+    ln -sf configs/config.h.se-ext config.h
     
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
@@ -77,6 +77,5 @@ if [ "$1" == "prefetch" ]; then
     ./generate-all-metadata.sh
     
     # Run gem5
-    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=perfect-prefetch --bmk_ext=enc --enc=$ENC_LATENCY
-
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-ext-320 --bmk_ext=enc --enc=$KCIPHER_192_OCB
 fi
