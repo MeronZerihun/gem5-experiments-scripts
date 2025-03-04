@@ -63,13 +63,13 @@ fi
 if [ "$1" == "se-ext-ae" ]; then
     # Build gem5
     cd $GEM5_DIR
-    git checkout opt-se-ext-192-ae
+    git checkout opt-se-ext-ae
     CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
 
     # Configure Encrypted Library
     cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se-ext config.mk
-    ln -sf configs/config.h.se-ext config.h
+    ln -sf configs/config.mk.se-ext-ae config.mk
+    ln -sf configs/config.h.se-ext-ae config.h
     
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
@@ -77,5 +77,5 @@ if [ "$1" == "se-ext-ae" ]; then
     ./generate-all-metadata.sh
     
     # Run gem5
-    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-ext-320 --bmk_ext=enc --enc=$KCIPHER_192_OCB
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-ext-ae --bmk_ext=enc --enc=$KCIPHER_192_OCB
 fi
