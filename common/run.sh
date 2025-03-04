@@ -52,7 +52,7 @@ fi
 # add debug flags if we are running se
 EXTRA_FLAG=' '
 if [ "$gem5" != "clean" ]; then
-        EXTRA_FLAG='--debug-flags=Exec,priv,csd'
+        EXTRA_FLAG='--debug-flags=ExecEnable,ExecMicro,priv,csd'
 fi
 
 if [ "$bmk_ext" == "na" ]; then

@@ -7,7 +7,7 @@ PIN_DIR=$HOME_DIR/encrypted-datatype-taint-tracking
 
 
 # Benchmarks without failing ones (mnist-cnn)
-BENCHMARK_DIRS="bubble-sort bitonic-sort distinctness edit-distance eulers-number-approx fft-int flood-fill gradient-descent kadane kepler-calc lda mersenne minspan nonlinear-nn nr-solver parrando rad-to-degree shortest-path string-search string-search-optimized tea-cipher triangle-count"
+BENCHMARK_DIRS="bubble-sort distinctness edit-distance eulers-number-approx fft-int flood-fill gradient-descent kadane kepler-calc lda mersenne minspan nonlinear-nn nr-solver parrando rad-to-degree shortest-path string-search string-search-optimized tea-cipher triangle-count"
 
 # Formatting 
 RED='\033[0;31m'
