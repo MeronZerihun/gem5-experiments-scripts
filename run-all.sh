@@ -5,7 +5,7 @@ AES_128=40
 KCIPHER_128=3 
 KCIPHER_320=4 
 # Auth. encryption using OCB mode: https://eprint.iacr.org/2001/026.pdf
-KCIPHER_192_OCB=19 
+KCIPHER_192_OCB=10 
 
 if [ "$1" == "na" ]; then
     # Build gem5
