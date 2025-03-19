@@ -77,6 +77,7 @@ if [ -z "$enc" ]; then
   cd $CUR_DIR
   # If NO_DEBUG, remove debug results
   if [ "$NO_DEBUG" == "true" ]; then
+    mv $BIN_DIR/m5out/stats.txt $RESULT_DIR/m5out-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
     rm -rf $BIN_DIR/m5out
   else
     mv $BIN_DIR/m5out $RESULT_DIR/m5out-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
@@ -86,6 +87,7 @@ else
   cd $CUR_DIR
   # If NO_DEBUG, remove debug results
   if [ "$NO_DEBUG" == "true" ]; then
+    mv $BIN_DIR/m5out/stats.txt $RESULT_DIR/m5out-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')-stats.txt
     rm -rf $BIN_DIR/m5out
   else
     mv $BIN_DIR/m5out $RESULT_DIR/m5out-enc-$enc-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
