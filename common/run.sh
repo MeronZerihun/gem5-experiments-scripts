@@ -75,11 +75,21 @@ ln -sf $GEM5_DIR/ext/ ./ext
 if [ -z "$enc" ]; then
   $GEM5_DIR/build/X86/gem5.opt $EXTRA_FLAG --debug-file=debug.out --stats-file=stats.txt $CONFIG_FILE
   cd $CUR_DIR
-  mv $BIN_DIR/m5out $RESULT_DIR/m5out-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
+  # If NO_DEBUG, remove debug results
+  if [ "$NO_DEBUG" == "true" ]; then
+    rm -rf $BIN_DIR/m5out
+  else
+    mv $BIN_DIR/m5out $RESULT_DIR/m5out-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
+  fi
 else
   $GEM5_DIR/build/X86/gem5.opt $EXTRA_FLAG --debug-file=debug.out --stats-file=stats.txt $CONFIG_FILE $enc
   cd $CUR_DIR
-  mv $BIN_DIR/m5out $RESULT_DIR/m5out-enc-$enc-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
+  # If NO_DEBUG, remove debug results
+  if [ "$NO_DEBUG" == "true" ]; then
+    rm -rf $BIN_DIR/m5out
+  else
+    mv $BIN_DIR/m5out $RESULT_DIR/m5out-enc-$enc-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
+  fi
 fi
 
 
