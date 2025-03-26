@@ -5,7 +5,7 @@ source paths.sh
 
 curDIR=$PWD
 
-benchmark_stat_file=results/m5out-priv-opt-se-128-enc-*stats.txt
+benchmark_stat_file=results/m5out-priv-opt-se-ext-320-enc-*stats.txt
 filtered_stats=results/m5out_filtered_stats.out
 final_stats=$PWD/csv/final_stats.csv
 se_alu_stats=$PWD/csv/se_alu_stats.csv
@@ -45,7 +45,7 @@ done
 touch $final_stats
 echo -e "Benchmarks,Committed Insts,Committed Insts Tainted,Committed Loads,Simulated Total Ops,Simulated SE ALU Operations,Simulated SE Encryptions,Simulated SE Decryptions" > $final_stats
 
-echo -e "Benchmarks,EncIntAlu+Div,EncIntMult,EncFPALU,EncFloatMult,EncFloatMultAcc,EncFloatDiv,EncFloatMisc,EncFloatSqrt,EncSIMDInst" > $se_alu_stats
+echo -e "Benchmarks,EncIntAlu,EncIntDiv,EncIntMult,EncFPALU,EncFloatMult,EncFloatMultAcc,EncFloatDiv,EncFloatMisc,EncFloatSqrt,EncSIMDInst" > $se_alu_stats
 
 for dir in $BENCHMARK_DIRS; do
     cd $BENCHMARK_HOME_DIR/$dir
@@ -119,15 +119,20 @@ for dir in $BENCHMARK_DIRS; do
     # Benchmark Name
     line=${file_lines[0]}, 
 
-    # EncIntALU+Div
+    # EncIntALU
     alu=0
-    for i in {5,7}
-    do
-        stat=${file_lines[i]}
-        IFS=' ' read -r -a arr <<< "${stat}"
-        count=${arr[1]}
-        alu=$((alu + count))
-    done
+    stat=${file_lines[5]}
+    IFS=' ' read -r -a arr <<< "${stat}"
+    count=${arr[1]}
+    alu=$count
+    line+=${alu},
+
+    # EncIntDiv
+    alu=0
+    stat=${file_lines[7]}
+    IFS=' ' read -r -a arr <<< "${stat}"
+    count=${arr[1]}
+    alu=$count
     line+=${alu},
 
     # EncIntMult

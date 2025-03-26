@@ -11,6 +11,10 @@ for dir in $BENCHMARK_DIRS; do
     make clean
     make 'MODE=na' CC=gcc-5 CXX=g++-5
     mv $dir.na bin/
+
+    make clean
+    make 'MODE=do' CC=gcc-5 CXX=g++-5
+    mv $dir.do bin/
     
     make clean
     make 'MODE=enc' CC=gcc-5 CXX=g++-5

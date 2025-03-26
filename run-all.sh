@@ -20,6 +20,19 @@ if [ "$1" == "na" ]; then
     ./run-gem5-experiments.sh --gem5=clean --gem5_branch=master --bmk_ext=na 
     
 fi
+if [ "$1" == "do" ]; then
+    # Build gem5
+    cd $CLEAN_GEM5_DIR
+    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+    cd ../gem5-experiments-scripts
+
+    # Build benchmarks 
+    ./build-all-benchmarks.sh
+    
+    # Run gem5
+    ./run-gem5-experiments.sh --gem5=clean --gem5_branch=master --bmk_ext=do 
+    
+fi
 if [ "$1" == "se" ]; then
     # Build gem5
     cd $GEM5_DIR
@@ -79,46 +92,9 @@ if [ "$1" == "se-ext-ae" ]; then
     # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-ext-ae --bmk_ext=enc --enc=$KCIPHER_192_OCB
 fi
-if [ "$1" == "perfect-prefetch" ]; then
-    # Build gem5
-    cd $GEM5_DIR
-    git checkout perfect-prefetch
-    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
 
-    # Configure Encrypted Library
-    cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se-ext config.mk
-    ln -sf configs/config.h.se-ext config.h
-    
-    # Build benchmarks, generate taints
-    cd ../gem5-experiments-scripts
-    ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh
-    
-    # Run gem5
-    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=perfect-prefetch --bmk_ext=enc --enc=$KCIPHER_320
 
-fi
-if [ "$1" == "perfect-prefetch++" ]; then
-    # Build gem5
-    cd $GEM5_DIR
-    git checkout perfect-prefetch++
-    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
-
-    # Configure Encrypted Library
-    cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se-ext config.mk
-    ln -sf configs/config.h.se-ext config.h
-    
-    # Build benchmarks, generate taints
-    cd ../gem5-experiments-scripts
-    ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh
-    
-    # Run gem5
-    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=perfect-prefetch++ --bmk_ext=enc --enc=$KCIPHER_320
-
-fi
+# Hash Sensitivity
 if [ "$1" == "se-ext-hash-1" ]; then
     # Build gem5
     cd $GEM5_DIR
@@ -139,7 +115,6 @@ if [ "$1" == "se-ext-hash-1" ]; then
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-hash-1 --bmk_ext=enc --enc=$KCIPHER_320
 
 fi
-
 if [ "$1" == "se-ext-hash-3" ]; then
     # Build gem5
     cd $GEM5_DIR
@@ -158,5 +133,128 @@ if [ "$1" == "se-ext-hash-3" ]; then
     
     # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-hash-3 --bmk_ext=enc --enc=$KCIPHER_320
+
+fi
+if [ "$1" == "se-ext-ae-hash-1" ]; then
+    # Build gem5
+    cd $GEM5_DIR
+    git checkout se-ext-ae-hash-1
+    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+
+    # Configure Encrypted Library
+    cd ../se-integrity-benchmarks
+    ln -sf configs/config.mk.se-ext-ae config.mk
+    ln -sf configs/config.h.se-ext-ae config.h
+    
+    # Build benchmarks, generate taints
+    cd ../gem5-experiments-scripts
+    ./build-all-benchmarks.sh
+    ./generate-all-metadata.sh
+    
+    # Run gem5
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-ae-hash-1 --bmk_ext=enc --enc=$KCIPHER_192_OCB
+
+fi
+if [ "$1" == "se-ext-ae-hash-3" ]; then
+    # Build gem5
+    cd $GEM5_DIR
+    git checkout se-ext-ae-hash-3
+    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+
+    # Configure Encrypted Library
+    cd ../se-integrity-benchmarks
+    ln -sf configs/config.mk.se-ext-ae config.mk
+    ln -sf configs/config.h.se-ext-ae config.h
+    
+    # Build benchmarks, generate taints
+    cd ../gem5-experiments-scripts
+    ./build-all-benchmarks.sh
+    ./generate-all-metadata.sh
+    
+    # Run gem5
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-ae-hash-3 --bmk_ext=enc --enc=$KCIPHER_192_OCB
+
+fi
+
+
+# Load Sensitivity
+if [ "$1" == "se-ext-perfect-prefetch" ]; then
+    # Build gem5
+    cd $GEM5_DIR
+    git checkout se-ext-perfect-prefetch
+    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+
+    # Configure Encrypted Library
+    cd ../se-integrity-benchmarks
+    ln -sf configs/config.mk.se-ext config.mk
+    ln -sf configs/config.h.se-ext config.h
+    
+    # Build benchmarks, generate taints
+    cd ../gem5-experiments-scripts
+    ./build-all-benchmarks.sh
+    ./generate-all-metadata.sh
+    
+    # Run gem5
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-perfect-prefetch --bmk_ext=enc --enc=$KCIPHER_320
+
+fi
+if [ "$1" == "se-ext-ae-perfect-prefetch" ]; then
+    # Build gem5
+    cd $GEM5_DIR
+    git checkout se-ext-ae-perfect-prefetch
+    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+
+    # Configure Encrypted Library
+    cd ../se-integrity-benchmarks
+    ln -sf configs/config.mk.se-ext-ae config.mk
+    ln -sf configs/config.h.se-ext-ae config.h
+    
+    # Build benchmarks, generate taints
+    cd ../gem5-experiments-scripts
+    ./build-all-benchmarks.sh
+    ./generate-all-metadata.sh
+    
+    # Run gem5
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-ae-perfect-prefetch --bmk_ext=enc --enc=$KCIPHER_192_OCB
+
+fi
+if [ "$1" == "se-ext-perfect-prefetch-hash-1" ]; then
+    # Build gem5
+    cd $GEM5_DIR
+    git checkout se-ext-perfect-prefetch-hash-1
+    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+
+    # Configure Encrypted Library
+    cd ../se-integrity-benchmarks
+    ln -sf configs/config.mk.se-ext config.mk
+    ln -sf configs/config.h.se-ext config.h
+    
+    # Build benchmarks, generate taints
+    cd ../gem5-experiments-scripts
+    ./build-all-benchmarks.sh
+    ./generate-all-metadata.sh
+    
+    # Run gem5
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-perfect-prefetch-hash-1 --bmk_ext=enc --enc=$KCIPHER_320
+
+fi
+if [ "$1" == "se-ext-ae-perfect-prefetch-hash-1" ]; then
+    # Build gem5
+    cd $GEM5_DIR
+    git checkout se-ext-ae-perfect-prefetch-hash-1
+    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+
+    # Configure Encrypted Library
+    cd ../se-integrity-benchmarks
+    ln -sf configs/config.mk.se-ext-ae config.mk
+    ln -sf configs/config.h.se-ext-ae config.h
+    
+    # Build benchmarks, generate taints
+    cd ../gem5-experiments-scripts
+    ./build-all-benchmarks.sh
+    ./generate-all-metadata.sh
+    
+    # Run gem5
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-ae-perfect-prefetch-hash-1 --bmk_ext=enc --enc=$KCIPHER_192_OCB
 
 fi
