@@ -6,6 +6,18 @@ source paths.sh
 # move pin results into corresponding file in each benchmark dir
 curDIR=$PWD
 
+COPY=${dir:-} 
+cmd_args=$#
+
+while [ $# -gt 0 ]; do
+  case "$1" in
+    --dir=*)
+      COPY="${1#*=}"
+      ;;
+      esac
+  shift
+done
+
 # Build Instruction Taint tracking tool
 $PIN_DIR/source/tools/InsnTagging/build_tool.sh
 
@@ -29,6 +41,10 @@ for dir in $BENCHMARK_DIRS; do
     mv out/$dir.enc.taints $BENCHMARK_HOME_DIR/$dir/bin/
     mv out/$dir.enc.out    $BENCHMARK_HOME_DIR/$dir/bin/$dir.enc.pin
 
+    mkdir -p $BENCHMARK_HOME_DIR/$dir/$COPY
+    if [ $cmd_args == 1 ]; then
+        cp -r $BENCHMARK_HOME_DIR/$dir/bin/* $BENCHMARK_HOME_DIR/$dir/$COPY/
+    fi
     rm -r out/
     cd $curDIR
 

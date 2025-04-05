@@ -36,28 +36,28 @@ fi
 if [ "$1" == "se" ]; then
     # Build gem5
     cd $GEM5_DIR
-    git checkout opt-se-128
-    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+    # git checkout opt-se-128
+    # CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
 
     # Configure Encrypted library
     cd ../se-integrity-benchmarks
     ln -sf configs/config.mk.se config.mk
     ln -sf configs/config.h.se config.h
     
-    # Build benchmarks, generate taints 
+    # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
     ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh
+    ./generate-all-metadata.sh --dir=bin-se
     
-    # Run gem5
-    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-128 --bmk_ext=enc --enc=$KCIPHER_128
+    # # Run gem5
+    # ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-128 --bmk_ext=enc --enc=$KCIPHER_128
 
 fi
 if [ "$1" == "se-ext" ]; then
     # Build gem5
     cd $GEM5_DIR
-    git checkout opt-se-ext-320
-    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+    # git checkout opt-se-ext-320
+    # CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
 
     # Configure Encrypted Library
     cd ../se-integrity-benchmarks
@@ -67,10 +67,10 @@ if [ "$1" == "se-ext" ]; then
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
     ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh
+    ./generate-all-metadata.sh --dir=bin-se-ext
     
-    # Run gem5
-    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-ext-320 --bmk_ext=enc --enc=$KCIPHER_320
+    # # Run gem5
+    # ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-ext-320 --bmk_ext=enc --enc=$KCIPHER_320
 
 fi
 if [ "$1" == "se-ext-ae" ]; then
@@ -87,7 +87,7 @@ if [ "$1" == "se-ext-ae" ]; then
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
     ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh
+    ./generate-all-metadata.sh --dir=bin-se-ext-ae
     
     # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-ext-ae --bmk_ext=enc --enc=$KCIPHER_192_OCB
@@ -109,7 +109,7 @@ if [ "$1" == "se-ext-hash-1" ]; then
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
     ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh
+    ./generate-all-metadata.sh 
     
     # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-hash-1 --bmk_ext=enc --enc=$KCIPHER_320
