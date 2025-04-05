@@ -36,8 +36,8 @@ fi
 if [ "$1" == "se" ]; then
     # Build gem5
     cd $GEM5_DIR
-    # git checkout opt-se-128
-    # CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+    git checkout opt-se-128
+    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
 
     # Configure Encrypted library
     cd ../se-integrity-benchmarks
@@ -50,14 +50,14 @@ if [ "$1" == "se" ]; then
     ./generate-all-metadata.sh --dir=bin-se
     
     # # Run gem5
-    # ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-128 --bmk_ext=enc --enc=$KCIPHER_128
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-128 --bmk_ext=enc --enc=$KCIPHER_128
 
 fi
 if [ "$1" == "se-ext" ]; then
     # Build gem5
     cd $GEM5_DIR
-    # git checkout opt-se-ext-320
-    # CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+    git checkout opt-se-ext-320
+    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
 
     # Configure Encrypted Library
     cd ../se-integrity-benchmarks
@@ -70,7 +70,7 @@ if [ "$1" == "se-ext" ]; then
     ./generate-all-metadata.sh --dir=bin-se-ext
     
     # # Run gem5
-    # ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-ext-320 --bmk_ext=enc --enc=$KCIPHER_320
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-ext-320 --bmk_ext=enc --enc=$KCIPHER_320
 
 fi
 if [ "$1" == "se-ext-ae" ]; then
