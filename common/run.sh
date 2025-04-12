@@ -42,6 +42,22 @@ done
 
 mkdir -p results
 BIN_DIR=bin
+
+rm -rf $BENCHMARK_HOME_DIR/$bmk/bin
+if [[ $gem5_branch == *"se-128"* ]]; then
+  mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
+  cp -r $BENCHMARK_HOME_DIR/$bmk/bin-se/* $BENCHMARK_HOME_DIR/$bmk/bin
+fi
+if [[ $gem5_branch == *"se-ext"* ]]; then
+  mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
+  cp -r $BENCHMARK_HOME_DIR/$bmk/bin-se-ext/* $BENCHMARK_HOME_DIR/$bmk/bin
+fi
+if [[ $gem5_branch == *"se-ext-ae"* ]]; then
+  mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
+  cp -r $BENCHMARK_HOME_DIR/$bmk/bin-se-ae-ext/* $BENCHMARK_HOME_DIR/$bmk/bin
+fi
+
+
 RESULT_DIR=results
 CUR_DIR=$PWD
 

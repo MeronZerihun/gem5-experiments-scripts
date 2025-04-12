@@ -24,7 +24,8 @@ $PIN_DIR/source/tools/InsnTagging/build_tool.sh
 echo "%% Generating metadata for all benchmarks... "
 for dir in $BENCHMARK_DIRS; do
 
-    
+    rm -rf $BENCHMARK_HOME_DIR/$dir/$COPY/
+
     echo "%% Generating for" $dir
 
     cp common/generate-metadata.sh $BENCHMARK_HOME_DIR/$dir/
@@ -41,8 +42,9 @@ for dir in $BENCHMARK_DIRS; do
     mv out/$dir.enc.taints $BENCHMARK_HOME_DIR/$dir/bin/
     mv out/$dir.enc.out    $BENCHMARK_HOME_DIR/$dir/bin/$dir.enc.pin
 
-    mkdir -p $BENCHMARK_HOME_DIR/$dir/$COPY
+    
     if [ $cmd_args == 1 ]; then
+        mkdir -p $BENCHMARK_HOME_DIR/$dir/$COPY
         cp -r $BENCHMARK_HOME_DIR/$dir/bin/* $BENCHMARK_HOME_DIR/$dir/$COPY/
     fi
     rm -r out/

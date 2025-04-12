@@ -41,13 +41,13 @@ if [ "$1" == "se" ]; then
 
     # Configure Encrypted library
     cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se config.mk
-    ln -sf configs/config.h.se config.h
+    # ln -sf configs/config.mk.se config.mk
+    # ln -sf configs/config.h.se config.h
     
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
-    ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh --dir=bin-se
+    # ./build-all-benchmarks.sh
+    # ./generate-all-metadata.sh --dir=bin-se
     
     # # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-128 --bmk_ext=enc --enc=$KCIPHER_128
@@ -61,13 +61,13 @@ if [ "$1" == "se-ext" ]; then
 
     # Configure Encrypted Library
     cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se-ext config.mk
-    ln -sf configs/config.h.se-ext config.h
+    # ln -sf configs/config.mk.se-ext config.mk
+    # ln -sf configs/config.h.se-ext config.h
     
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
-    ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh --dir=bin-se-ext
+    # ./build-all-benchmarks.sh
+    # ./generate-all-metadata.sh --dir=bin-se-ext
     
     # # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-ext-320 --bmk_ext=enc --enc=$KCIPHER_320
@@ -81,13 +81,13 @@ if [ "$1" == "se-ext-ae" ]; then
 
     # Configure Encrypted Library
     cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se-ext-ae config.mk
-    ln -sf configs/config.h.se-ext-ae config.h
+    # ln -sf configs/config.mk.se-ext-ae config.mk
+    # ln -sf configs/config.h.se-ext-ae config.h
     
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
-    ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh --dir=bin-se-ext-ae
+    # ./build-all-benchmarks.sh
+    # ./generate-all-metadata.sh --dir=bin-se-ae-ext
     
     # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-ext-ae --bmk_ext=enc --enc=$KCIPHER_192_OCB
@@ -103,13 +103,13 @@ if [ "$1" == "se-ext-hash-1" ]; then
 
     # Configure Encrypted Library
     cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se-ext config.mk
-    ln -sf configs/config.h.se-ext config.h
+    # ln -sf configs/config.mk.se-ext config.mk
+    # ln -sf configs/config.h.se-ext config.h
     
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
-    ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh 
+    # ./build-all-benchmarks.sh
+    # ./generate-all-metadata.sh 
     
     # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-hash-1 --bmk_ext=enc --enc=$KCIPHER_320
@@ -123,13 +123,13 @@ if [ "$1" == "se-ext-hash-3" ]; then
 
     # Configure Encrypted Library
     cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se-ext config.mk
-    ln -sf configs/config.h.se-ext config.h
+    # ln -sf configs/config.mk.se-ext config.mk
+    # ln -sf configs/config.h.se-ext config.h
     
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
-    ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh
+    # ./build-all-benchmarks.sh
+    # ./generate-all-metadata.sh
     
     # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-hash-3 --bmk_ext=enc --enc=$KCIPHER_320
@@ -143,13 +143,13 @@ if [ "$1" == "se-ext-ae-hash-1" ]; then
 
     # Configure Encrypted Library
     cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se-ext-ae config.mk
-    ln -sf configs/config.h.se-ext-ae config.h
+    # ln -sf configs/config.mk.se-ext-ae config.mk
+    # ln -sf configs/config.h.se-ext-ae config.h
     
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
-    ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh
+    # ./build-all-benchmarks.sh
+    # ./generate-all-metadata.sh
     
     # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-ae-hash-1 --bmk_ext=enc --enc=$KCIPHER_192_OCB
@@ -163,13 +163,13 @@ if [ "$1" == "se-ext-ae-hash-3" ]; then
 
     # Configure Encrypted Library
     cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se-ext-ae config.mk
-    ln -sf configs/config.h.se-ext-ae config.h
+    # ln -sf configs/config.mk.se-ext-ae config.mk
+    # ln -sf configs/config.h.se-ext-ae config.h
     
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
-    ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh
+    # ./build-all-benchmarks.sh
+    # ./generate-all-metadata.sh
     
     # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-ae-hash-3 --bmk_ext=enc --enc=$KCIPHER_192_OCB
@@ -186,13 +186,13 @@ if [ "$1" == "se-ext-perfect-prefetch" ]; then
 
     # Configure Encrypted Library
     cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se-ext config.mk
-    ln -sf configs/config.h.se-ext config.h
+    # ln -sf configs/config.mk.se-ext config.mk
+    # ln -sf configs/config.h.se-ext config.h
     
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
-    ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh
+    # ./build-all-benchmarks.sh
+    # ./generate-all-metadata.sh
     
     # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-perfect-prefetch --bmk_ext=enc --enc=$KCIPHER_320
@@ -206,13 +206,13 @@ if [ "$1" == "se-ext-ae-perfect-prefetch" ]; then
 
     # Configure Encrypted Library
     cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se-ext-ae config.mk
-    ln -sf configs/config.h.se-ext-ae config.h
+    # ln -sf configs/config.mk.se-ext-ae config.mk
+    # ln -sf configs/config.h.se-ext-ae config.h
     
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
-    ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh
+    # ./build-all-benchmarks.sh
+    # ./generate-all-metadata.sh
     
     # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-ae-perfect-prefetch --bmk_ext=enc --enc=$KCIPHER_192_OCB
@@ -226,13 +226,13 @@ if [ "$1" == "se-ext-perfect-prefetch-hash-1" ]; then
 
     # Configure Encrypted Library
     cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se-ext config.mk
-    ln -sf configs/config.h.se-ext config.h
+    # ln -sf configs/config.mk.se-ext config.mk
+    # ln -sf configs/config.h.se-ext config.h
     
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
-    ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh
+    # ./build-all-benchmarks.sh
+    # ./generate-all-metadata.sh
     
     # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-perfect-prefetch-hash-1 --bmk_ext=enc --enc=$KCIPHER_320
@@ -246,13 +246,13 @@ if [ "$1" == "se-ext-ae-perfect-prefetch-hash-1" ]; then
 
     # Configure Encrypted Library
     cd ../se-integrity-benchmarks
-    ln -sf configs/config.mk.se-ext-ae config.mk
-    ln -sf configs/config.h.se-ext-ae config.h
+    # ln -sf configs/config.mk.se-ext-ae config.mk
+    # ln -sf configs/config.h.se-ext-ae config.h
     
     # Build benchmarks, generate taints
     cd ../gem5-experiments-scripts
-    ./build-all-benchmarks.sh
-    ./generate-all-metadata.sh
+    # ./build-all-benchmarks.sh
+    # ./generate-all-metadata.sh
     
     # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=se-ext-ae-perfect-prefetch-hash-1 --bmk_ext=enc --enc=$KCIPHER_192_OCB
