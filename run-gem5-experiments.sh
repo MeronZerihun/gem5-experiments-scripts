@@ -2,9 +2,9 @@
 source paths.sh
 
 # parse script arguments 
-gem5=${gem5:-clean} #clean, priv
-bmk_ext=${bmk_ext:-na} #na, enc
-gem5_branch=${gem5_branch:-} #opt-se-128, opt-se-ext-320
+gem5=${gem5:-clean} # clean, priv
+bmk_ext=${bmk_ext:-na} # na, enc
+gem5_branch=${gem5_branch:-} # opt-se-128, opt-se-ext-320
 enc=${enc:-}
 cmd_args=$#
 

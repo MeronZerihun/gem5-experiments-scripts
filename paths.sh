@@ -9,8 +9,8 @@ NO_DEBUG=true
 
 
 # Benchmarks without failing ones (mnist-cnn)
-BENCHMARK_DIRS="bubble-sort distinctness edit-distance eulers-number-approx  flood-fill fft-int gradient-descent kadane kepler-calc lda mersenne minspan nonlinear-nn nr-solver parrando rad-to-degree shortest-path string-search tea-cipher triangle-count"
-# BENCHMARK_DIRS="flood-fill"
+# BENCHMARK_DIRS="bubble-sort distinctness edit-distance eulers-number-approx  flood-fill fft-int gradient-descent kadane kepler-calc lda mersenne minspan nonlinear-nn nr-solver parrando rad-to-degree shortest-path string-search tea-cipher triangle-count"
+BENCHMARK_DIRS="bubble-sort"
 
 # Formatting 
 RED='\033[0;31m'
