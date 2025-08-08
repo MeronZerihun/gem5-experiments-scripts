@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e # Exit script if encountered an error
 source ~/ZeroRISC/gem5-experiments-scripts/paths.sh
 
 AES_128=40
@@ -41,6 +42,7 @@ if [ "$1" == "se" ]; then
     git checkout opt-se-128
     CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
 
+    # Set encrypted library
     cd $BENCHMARK_HOME_DIR
     ln -sf configs/config.mk.se config.mk
     ln -sf configs/config.h.se config.h
@@ -51,7 +53,7 @@ if [ "$1" == "se" ]; then
     ./generate-all-metadata.sh --dir=$2-bin-$1
     
     # Run gem5
-    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-128 --bmk_ext=enc --enc=$KCIPHER_128
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=opt-se-128 --bmk_ext=enc --enc=$KCIPHER_128 --dir=$2-bin-$1
 
 fi
 if [ "$1" == "se-ext" ]; then

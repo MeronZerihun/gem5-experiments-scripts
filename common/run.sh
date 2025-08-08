@@ -13,6 +13,7 @@ bmk_ext=${bmk_ext:-na} #na, enc
 gem5_branch=${gem5_branch:-} #opt-se-128, #opt-se-ext-320
 bmk=${bmk:-} #name of bmk dir
 enc=${enc:-} #encryption latency
+dir=${dir:-} #directory for pin taint metadata
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -31,6 +32,9 @@ while [ $# -gt 0 ]; do
      --enc=*)
       enc="${1#*=}"
       ;;
+    --dir=*)
+      dir="${1#*=}"
+      ;;
     *)
       printf "***************************\n"
       printf "* Error: Invalid argument.*\n"
@@ -43,18 +47,22 @@ done
 mkdir -p results
 BIN_DIR=bin
 
-if [[ $gem5_branch == *"se-128"* ]]; then
-  mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
-  cp -r $BENCHMARK_HOME_DIR/$bmk/dev-bin-se/* $BENCHMARK_HOME_DIR/$bmk/bin
-fi
-if [[ $gem5_branch == *"se-ext"* ]]; then
-  mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
-  cp -r $BENCHMARK_HOME_DIR/$bmk/dev-bin-se-ext/* $BENCHMARK_HOME_DIR/$bmk/bin
-fi
-if [[ $gem5_branch == *"se-ext-ae"* ]]; then
-  mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
-  cp -r $BENCHMARK_HOME_DIR/$bmk/dev-bin-se-ae-ext/* $BENCHMARK_HOME_DIR/$bmk/bin
-fi
+mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
+cp -r $BENCHMARK_HOME_DIR/$bmk/$dir/* $BENCHMARK_HOME_DIR/$bmk/bin
+
+
+# if [[ $gem5_branch == *"se-128"* ]]; then
+#   mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
+#   cp -r $BENCHMARK_HOME_DIR/$bmk/dev-bin-se/* $BENCHMARK_HOME_DIR/$bmk/bin
+# fi
+# if [[ $gem5_branch == *"se-ext"* ]]; then
+#   mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
+#   cp -r $BENCHMARK_HOME_DIR/$bmk/dev-bin-se-ext/* $BENCHMARK_HOME_DIR/$bmk/bin
+# fi
+# if [[ $gem5_branch == *"se-ext-ae"* ]]; then
+#   mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
+#   cp -r $BENCHMARK_HOME_DIR/$bmk/dev-bin-se-ae-ext/* $BENCHMARK_HOME_DIR/$bmk/bin
+# fi
 
 
 RESULT_DIR=results

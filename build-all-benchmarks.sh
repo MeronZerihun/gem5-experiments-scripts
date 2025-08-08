@@ -19,6 +19,11 @@ for dir in $BENCHMARK_DIRS; do
     make clean
     make 'MODE=enc' CC=gcc-5 CXX=g++-5
     mv $dir.enc bin/
+
+    if [ $dir == "mnist-cnn" ]; then
+        cp mnist-test-x.knd bin/
+        cp mnist-cnn.kan bin/
+    fi
     
     make clean
     cd $curDIR

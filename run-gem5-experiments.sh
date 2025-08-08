@@ -6,6 +6,7 @@ gem5=${gem5:-clean} # clean, priv
 bmk_ext=${bmk_ext:-na} # na, enc
 gem5_branch=${gem5_branch:-} # opt-se-128, opt-se-ext-320
 enc=${enc:-}
+dir=${dir:-}
 cmd_args=$#
 
 while [ $# -gt 0 ]; do
@@ -22,21 +23,24 @@ while [ $# -gt 0 ]; do
     --enc=*)
       enc="${1#*=}"
       ;;
+    --dir=*)
+      dir="${1#*=}"
+      ;;
     *)
   esac
   shift
 done
 
 if [ $gem5 == "priv" ]; then
-  if [ $cmd_args != 4 ]; then
+  if [ $cmd_args != 5 ]; then
     printf "%%%% ${RED}ERROR:${NC} Invalid arguments\n"
-    printf "%%%% Example Usage: ./run-gem5-experiments.sh --gem5=priv --bmk_ext=enc --gem5_branch=opt-se-128 --enc=40\n"
+    printf "%%%% Example Usage: ./run-gem5-experiments.sh --gem5=priv --bmk_ext=enc --gem5_branch=opt-se-128 --enc=40 --dir=dev-bin-se\n"
     exit 1
   fi
 else
-  if [ $cmd_args != 3 ]; then
+  if [ $cmd_args != 4 ]; then
     printf "%%%% ${RED}ERROR:${NC} Invalid arguments\n"
-    printf "%%%% Example Usage: ./run-gem5-experiments.sh --gem5=clean --bmk_ext=enc --gem5_branch=opt-se-128\n"
+    printf "%%%% Example Usage: ./run-gem5-experiments.sh --gem5=clean --bmk_ext=enc --gem5_branch=opt-se-128 --dir=dev-bin-se\n"
     exit 1
   fi
 fi
@@ -44,18 +48,20 @@ fi
 
 # start runs for each benchmark
 curDIR=$PWD
-for dir in $BENCHMARK_DIRS; do
+for bmk in $BENCHMARK_DIRS; do
     echo "" 
     # copy run.sh into benchmark dir
-    cp common/run.sh $BENCHMARK_HOME_DIR/$dir/run.sh
+    cp common/run.sh $BENCHMARK_HOME_DIR/$bmk/run.sh
     # start run.sh 
-    cd $BENCHMARK_HOME_DIR/$dir
+    cd $BENCHMARK_HOME_DIR/$bmk
+    # Remove previous results folder (save memory for debug)
+    rm -rf results
     mkdir -p results
     if [ -z "$enc" ]; then
       echo No encryption latency provided!
-      ./run.sh --bmk=$dir --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch | tee results/run-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d').out &
+      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --dir=$dir | tee results/run-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d').out &
     else
-      ./run.sh --bmk=$dir --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --enc=$enc | tee results/run-enc-$enc-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d').out &
+      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --enc=$enc --dir=$dir | tee results/run-enc-$enc-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d').out &
     fi
     cd $curDIR
 done

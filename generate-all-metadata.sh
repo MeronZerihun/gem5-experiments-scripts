@@ -41,6 +41,13 @@ for dir in $BENCHMARK_DIRS; do
 
     grep -Pv '^7' out/$dir.enc.taints > out/temp.taints
     grep -v 'push qword' out/temp.taints > out/$dir.enc.taints
+
+    abort=$(grep 'Abort' out/$dir.enc.taints | wc -l)
+
+    # ***** Testing gem5 segfault *****
+    # grep -v 'push' out/$dir.enc.taints > out/temp.taints
+    # grep -v 'pop' out/temp.taints > out/$dir.enc.taints
+    
     mv out/$dir.enc.taints $BENCHMARK_HOME_DIR/$dir/bin/
 
     mv out/$dir.enc.out    $BENCHMARK_HOME_DIR/$dir/bin/$dir.enc.pin
@@ -52,6 +59,11 @@ for dir in $BENCHMARK_DIRS; do
     fi
     rm -r out/
     cd $curDIR
+
+    if [ $abort -gt 0 ]; then
+      echo Found $abort aborts in $dir.enc.taints
+      exit 1
+    fi
 
     echo "%%      done."
 done
