@@ -5,12 +5,11 @@ CLEAN_GEM5_DIR=$HOME_DIR/clean-gem5
 BENCHMARK_HOME_DIR=$HOME_DIR/se-integrity-benchmarks
 PIN_DIR=$HOME_DIR/encrypted-datatype-taint-tracking
 
-NO_DEBUG=false
+NO_DEBUG=true
 
+BENCHMARK_DIRS="bubble-sort distinctness edit-distance eulers-number-approx  flood-fill fft-int gradient-descent kadane kepler-calc lda mersenne minspan mnist-cnn nonlinear-nn nr-solver parrando rad-to-degree shortest-path string-search tea-cipher triangle-count"
 
-# Benchmarks without failing ones (mnist-cnn)
-# BENCHMARK_DIRS="bubble-sort distinctness edit-distance eulers-number-approx  flood-fill fft-int gradient-descent kadane kepler-calc lda mersenne minspan nonlinear-nn nr-solver parrando rad-to-degree shortest-path string-search tea-cipher triangle-count"
-BENCHMARK_DIRS="mnist-cnn"
+# BENCHMARK_DIRS="triangle-count"
 
 # Formatting 
 RED='\033[0;31m'

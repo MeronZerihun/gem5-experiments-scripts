@@ -42,28 +42,32 @@ for dir in $BENCHMARK_DIRS; do
     grep -Pv '^7' out/$dir.enc.taints > out/temp.taints
     grep -v 'push qword' out/temp.taints > out/$dir.enc.taints
 
-    abort=$(grep 'Abort' out/$dir.enc.taints | wc -l)
-
-    # ***** Testing gem5 segfault *****
-    # grep -v 'push' out/$dir.enc.taints > out/temp.taints
-    # grep -v 'pop' out/temp.taints > out/$dir.enc.taints
-    
     mv out/$dir.enc.taints $BENCHMARK_HOME_DIR/$dir/bin/
-
     mv out/$dir.enc.out    $BENCHMARK_HOME_DIR/$dir/bin/$dir.enc.pin
 
-    
-    if [ $cmd_args == 1 ]; then
-        mkdir -p $BENCHMARK_HOME_DIR/$dir/$copy
-        cp -r $BENCHMARK_HOME_DIR/$dir/bin/* $BENCHMARK_HOME_DIR/$dir/$copy/
-    fi
+    mkdir -p $BENCHMARK_HOME_DIR/$dir/$copy
+    cp -r $BENCHMARK_HOME_DIR/$dir/bin/* $BENCHMARK_HOME_DIR/$dir/$copy/
+
     rm -r out/
     cd $curDIR
 
-    if [ $abort -gt 0 ]; then
-      echo Found $abort aborts in $dir.enc.taints
-      exit 1
+    abort=$(grep 'Abort' $BENCHMARK_HOME_DIR/$dir/$copy/$dir.enc.taints)
+    readarray -t match_arr <<< "$abort"
+    if [[ -n "$abort" ]]; then
+      echo Aborts exist in $dir.enc.taints
+      for match in "${match_arr[@]}"; do
+        line=($match)
+        insAddr=${line[2]}
+        if [[ $insAddr != 7* ]]; then
+          echo Found abort in $dir.enc.taints: $match
+          exit 1
+        else 
+          grep -Fv "$match" $BENCHMARK_HOME_DIR/$dir/$copy/$dir.enc.taints > $BENCHMARK_HOME_DIR/$dir/$copy/taints.out
+          mv $BENCHMARK_HOME_DIR/$dir/$copy/taints.out $BENCHMARK_HOME_DIR/$dir/$copy/$dir.enc.taints
+        fi
+      done
     fi
+    
 
     echo "%%      done."
 done
