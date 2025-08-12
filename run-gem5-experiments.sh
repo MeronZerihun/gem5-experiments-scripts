@@ -55,7 +55,9 @@ for bmk in $BENCHMARK_DIRS; do
     # start run.sh 
     cd $BENCHMARK_HOME_DIR/$bmk
     # Remove previous results folder (save memory for debug)
-    rm -rf results
+    # if [ $DEBUG == true ]; then
+      # rm -rf results
+    # fi
     mkdir -p results
     if [ -z "$enc" ]; then
       echo No encryption latency provided!

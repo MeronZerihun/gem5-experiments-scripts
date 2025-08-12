@@ -6,13 +6,13 @@ source paths.sh
 # move pin results into corresponding file in each benchmark dir
 curDIR=$PWD
 
-copy=${dir:-} 
+copy_dir=${dir:-} 
 cmd_args=$#
 
 while [ $# -gt 0 ]; do
   case "$1" in
     --dir=*)
-      copy="${1#*=}"
+      copy_dir="${1#*=}"
       ;;
       esac
   shift
@@ -24,7 +24,13 @@ $PIN_DIR/source/tools/InsnTagging/build_tool.sh
 echo "%% Generating metadata for all benchmarks... "
 for dir in $BENCHMARK_DIRS; do
 
-    rm -rf $BENCHMARK_HOME_DIR/$dir/$copy/
+    if [ -f "$BENCHMARK_HOME_DIR/$dir/$copy_dir/$dir.enc.taints" ]; then
+        echo "%% Taints file for $dir already exists"
+        cd $curDIR
+        continue
+    fi
+   
+    rm -rf $BENCHMARK_HOME_DIR/$dir/$copy_dir/
 
     echo "%% Generating for" $dir
 
@@ -45,13 +51,13 @@ for dir in $BENCHMARK_DIRS; do
     mv out/$dir.enc.taints $BENCHMARK_HOME_DIR/$dir/bin/
     mv out/$dir.enc.out    $BENCHMARK_HOME_DIR/$dir/bin/$dir.enc.pin
 
-    mkdir -p $BENCHMARK_HOME_DIR/$dir/$copy
-    cp -r $BENCHMARK_HOME_DIR/$dir/bin/* $BENCHMARK_HOME_DIR/$dir/$copy/
+    mkdir -p $BENCHMARK_HOME_DIR/$dir/$copy_dir
+    cp -r $BENCHMARK_HOME_DIR/$dir/bin/* $BENCHMARK_HOME_DIR/$dir/$copy_dir/
 
     rm -r out/
     cd $curDIR
 
-    abort=$(grep 'Abort' $BENCHMARK_HOME_DIR/$dir/$copy/$dir.enc.taints)
+    abort=$(grep 'Abort' $BENCHMARK_HOME_DIR/$dir/$copy_dir/$dir.enc.taints)
     readarray -t match_arr <<< "$abort"
     if [[ -n "$abort" ]]; then
       echo Aborts exist in $dir.enc.taints
@@ -62,8 +68,8 @@ for dir in $BENCHMARK_DIRS; do
           echo Found abort in $dir.enc.taints: $match
           exit 1
         else 
-          grep -Fv "$match" $BENCHMARK_HOME_DIR/$dir/$copy/$dir.enc.taints > $BENCHMARK_HOME_DIR/$dir/$copy/taints.out
-          mv $BENCHMARK_HOME_DIR/$dir/$copy/taints.out $BENCHMARK_HOME_DIR/$dir/$copy/$dir.enc.taints
+          grep -Fv "$match" $BENCHMARK_HOME_DIR/$dir/$copy_dir/$dir.enc.taints > $BENCHMARK_HOME_DIR/$dir/$copy_dir/taints.out
+          mv $BENCHMARK_HOME_DIR/$dir/$copy_dir/taints.out $BENCHMARK_HOME_DIR/$dir/$copy_dir/$dir.enc.taints
         fi
       done
     fi

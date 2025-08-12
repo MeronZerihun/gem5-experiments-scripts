@@ -3,8 +3,25 @@ source paths.sh
 
 curDIR=$PWD
 
+echo "%% Building all benchmarks... "
 for dir in $BENCHMARK_DIRS; do
     cd $BENCHMARK_HOME_DIR/$dir
+
+    if [[ $1 == "se" || $1 == "se-ext" ]]; then
+        if [ -f "$2/$dir.enc" ]; then
+            echo "%% Binary for $dir already exists"
+            cd $curDIR
+            continue
+        fi
+    else
+        # Check for na, do
+        if [ -f "$2/$dir.$1" ]; then
+            echo "%% Binary for $dir already exists"
+            cd $curDIR
+            continue
+        fi
+    fi
+
     rm -r bin
     mkdir bin
 

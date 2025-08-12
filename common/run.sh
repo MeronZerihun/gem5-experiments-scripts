@@ -47,23 +47,8 @@ done
 mkdir -p results
 BIN_DIR=bin
 
-mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
-cp -r $BENCHMARK_HOME_DIR/$bmk/$dir/* $BENCHMARK_HOME_DIR/$bmk/bin
-
-
-# if [[ $gem5_branch == *"se-128"* ]]; then
-#   mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
-#   cp -r $BENCHMARK_HOME_DIR/$bmk/dev-bin-se/* $BENCHMARK_HOME_DIR/$bmk/bin
-# fi
-# if [[ $gem5_branch == *"se-ext"* ]]; then
-#   mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
-#   cp -r $BENCHMARK_HOME_DIR/$bmk/dev-bin-se-ext/* $BENCHMARK_HOME_DIR/$bmk/bin
-# fi
-# if [[ $gem5_branch == *"se-ext-ae"* ]]; then
-#   mkdir -p $BENCHMARK_HOME_DIR/$bmk/bin
-#   cp -r $BENCHMARK_HOME_DIR/$bmk/dev-bin-se-ae-ext/* $BENCHMARK_HOME_DIR/$bmk/bin
-# fi
-
+mkdir -p $BENCHMARK_HOME_DIR/$bmk/$BIN_DIR
+cp -r $BENCHMARK_HOME_DIR/$bmk/$dir/* $BENCHMARK_HOME_DIR/$bmk/$BIN_DIR
 
 RESULT_DIR=results
 CUR_DIR=$PWD
@@ -94,27 +79,27 @@ printf "%%%% ${RED}WARNING:${NC} gem5 configuration files have not been update f
 
 cd $BIN_DIR
 
+# Default: AES-128 Latency
+encryption=40
+
 ln -sf $GEM5_DIR/ext/ ./ext
-if [ -z "$enc" ]; then
-  $GEM5_DIR/build/X86/gem5.opt $EXTRA_FLAG --debug-file=debug.out --stats-file=stats.txt $CONFIG_FILE
-  cd $CUR_DIR
-  # If NO_DEBUG, remove debug results
-  if [ $NO_DEBUG == true ]; then
-    mv $BIN_DIR/m5out/stats.txt $RESULT_DIR/m5out-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
-    rm -rf $BIN_DIR/m5out
-  else
-    mv $BIN_DIR/m5out $RESULT_DIR/m5out-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
-  fi
+
+if [ -n "$enc" ]; then
+  encryption=$enc
+fi
+
+$GEM5_DIR/build/X86/gem5.opt $EXTRA_FLAG --debug-file=debug.out --stats-file=stats.txt $CONFIG_FILE $encryption
+
+cd $CUR_DIR
+if [ $DEBUG == true ]; then
+  mv $BIN_DIR/m5out $RESULT_DIR/m5out-enc-$encryption-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M') 
 else
-  $GEM5_DIR/build/X86/gem5.opt $EXTRA_FLAG --debug-file=debug.out --stats-file=stats.txt $CONFIG_FILE $enc
-  cd $CUR_DIR
-  # If NO_DEBUG, remove debug results
-  if [ $NO_DEBUG == true ]; then
-    mv $BIN_DIR/m5out/stats.txt $RESULT_DIR/m5out-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')-stats.txt
-    rm -rf $BIN_DIR/m5out
-  else
-    mv $BIN_DIR/m5out $RESULT_DIR/m5out-enc-$enc-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
-  fi
+  mv $BIN_DIR/m5out/stats.txt $RESULT_DIR/m5out-enc-$encryption-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')-stats.txt
+fi
+
+rm -rf $BIN_DIR/m5out
+if [ $DEBUG != true ]; then
+  rm -rf $BIN_DIR
 fi
 
 
