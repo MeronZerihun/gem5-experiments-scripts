@@ -60,8 +60,12 @@ fi
 # add debug flags if we are running se
 EXTRA_FLAG=' '
 if [ "$gem5" != "clean" ]; then
-        # EXTRA_FLAG='--debug-flags=ExecEnable,ExecMicro,priv,csd'
-        EXTRA_FLAG='--debug-flags=ExecEnable,csd'
+  if [ $GEM5_BMK_RESULTS == true ]; then
+    EXTRA_FLAG='--debug-flags=ExecEnable'
+  else
+    # EXTRA_FLAG='--debug-flags=ExecEnable,ExecMicro,priv,csd'
+    EXTRA_FLAG='--debug-flags=ExecEnable,csd'
+  fi
 fi
 
 if [ "$bmk_ext" == "na" ]; then
@@ -91,14 +95,14 @@ fi
 $GEM5_DIR/build/X86/gem5.opt $EXTRA_FLAG --debug-file=debug.out --stats-file=stats.txt $CONFIG_FILE $encryption
 
 cd $CUR_DIR
-if [ $DEBUG == true ]; then
+if [[ $GEM5_DEBUG == true || $GEM5_BMK_RESULTS == true ]]; then
   mv $BIN_DIR/m5out $RESULT_DIR/m5out-enc-$encryption-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M') 
 else
   mv $BIN_DIR/m5out/stats.txt $RESULT_DIR/m5out-enc-$encryption-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')-stats.txt
 fi
 
 rm -rf $BIN_DIR/m5out
-if [ $DEBUG != true ]; then
+if [ $GEM5_DEBUG != true ]; then
   rm -rf $BIN_DIR
 fi
 

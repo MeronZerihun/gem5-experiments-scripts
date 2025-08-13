@@ -1,15 +1,15 @@
 #!/bin/bash
-source paths.sh
+# Command: ./stats-get-tainted-loads.sh m5out-enc-3 se
 
-# BENCHMARK_DIRS="gradient-descent"
+source paths.sh
 
 curDIR=$PWD
 
-benchmark_stat_file=results/m5out-priv-opt-se-ext-320*stats.txt
-filtered_stats=results/m5out_filtered_stats.out
-final_stats=$PWD/csv/se_ext_tainted_load.csv
+mkdir -p csv
 
-# BENCHMARK_DIRS=flood-fill
+benchmark_stat_file=results/$1*stats.txt
+filtered_stats=results/m5out_filtered_stats.out
+final_stats=$PWD/csv/stats_tainted_load_$2.csv
 
 for dir in $BENCHMARK_DIRS; do
     cd $BENCHMARK_HOME_DIR/$dir

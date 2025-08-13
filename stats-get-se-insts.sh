@@ -1,16 +1,15 @@
 #!/bin/bash
+# Command: ./stats-get-se-insts.sh m5out-enc-3 se
 source paths.sh
-
-# BENCHMARK_DIRS="gradient-descent"
 
 curDIR=$PWD
 
-benchmark_stat_file=results/m5out-priv-opt-se-ext-320-enc-*stats.txt
-filtered_stats=results/m5out_filtered_stats.out
-final_stats=$PWD/csv/final_stats.csv
-se_alu_stats=$PWD/csv/se_alu_stats.csv
+mkdir -p csv
 
-# BENCHMARK_DIRS=flood-fill
+benchmark_stat_file=results/$1*stats.txt
+filtered_stats=results/m5out_filtered_stats.out
+final_stats=$PWD/csv/stats_all_$2.csv
+se_alu_stats=$PWD/csv/stats_alu_$2.csv
 
 for dir in $BENCHMARK_DIRS; do
     cd $BENCHMARK_HOME_DIR/$dir
