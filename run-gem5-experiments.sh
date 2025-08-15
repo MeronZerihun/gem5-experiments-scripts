@@ -56,7 +56,7 @@ for bmk in $BENCHMARK_DIRS; do
     cd $BENCHMARK_HOME_DIR/$bmk
     # Remove previous results folder (save memory for debug)
     # if [ $GEM5_DEBUG == true ]; then
-      # rm -rf results
+    #   rm -rf results
     # fi
     mkdir -p results
     if [ -z "$enc" ]; then

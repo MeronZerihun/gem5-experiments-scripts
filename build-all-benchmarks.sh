@@ -36,6 +36,7 @@ for dir in $BENCHMARK_DIRS; do
     
     make clean
     make 'MODE=enc' CC=gcc-5 CXX=g++-5
+    ./$dir.enc > $dir.enc.out
     mv $dir.enc bin/
 
     if [ $dir == "mnist-cnn" ]; then
