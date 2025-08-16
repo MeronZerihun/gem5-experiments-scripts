@@ -11,7 +11,7 @@ for dir in $BENCHMARK_DIRS; do
     check=$(diff $dir/$dir.enc.out $dir/results/m5out-enc-3*/$dir.enc.out | grep "^[<>]" | wc -l)
     
     if [ $1 == "se-ext" ]; then
-        check=$(diff $dir/$dir.na.out $dir/results/m5out-enc-4*/$dir.enc.out | grep "^[<>]" | wc -l)
+        check=$(diff $dir/$dir.enc.out $dir/results/m5out-enc-4*/$dir.enc.out | grep "^[<>]" | wc -l)
     fi
 
     if [ $check -gt 0 ]; then
