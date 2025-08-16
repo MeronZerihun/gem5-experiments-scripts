@@ -7,6 +7,7 @@ bmk_ext=${bmk_ext:-na} # na, enc
 gem5_branch=${gem5_branch:-} # opt-se-128, opt-se-ext-320
 enc=${enc:-}
 dir=${dir:-}
+id=${id:-} # add file identifier for experiment results
 cmd_args=$#
 
 while [ $# -gt 0 ]; do
@@ -26,13 +27,16 @@ while [ $# -gt 0 ]; do
     --dir=*)
       dir="${1#*=}"
       ;;
+     --id=*)
+      id="${1#*=}"
+      ;;
     *)
   esac
   shift
 done
 
 if [ $gem5 == "priv" ]; then
-  if [ $cmd_args != 5 ]; then
+  if [ $cmd_args -lt 5 ]; then
     printf "%%%% ${RED}ERROR:${NC} Invalid arguments\n"
     printf "%%%% Example Usage: ./run-gem5-experiments.sh --gem5=priv --bmk_ext=enc --gem5_branch=opt-se-128 --enc=40 --dir=dev-bin-se\n"
     exit 1
@@ -58,12 +62,16 @@ for bmk in $BENCHMARK_DIRS; do
     # if [ $GEM5_DEBUG == true ]; then
     #   rm -rf results
     # fi
+    nameId=$id
+    if [ -n "$nameId" ]; then
+      nameId=$id-
+    fi
     mkdir -p results
     if [ -z "$enc" ]; then
       echo No encryption latency provided!
-      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --dir=$dir | tee results/run-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d').out &
+      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --dir=$dir --id=$id | tee results/run-$gem5-$gem5_branch-$bmk_ext-$nameId$(date +'%Y.%m.%d').out &
     else
-      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --enc=$enc --dir=$dir | tee results/run-enc-$enc-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d').out &
+      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --enc=$enc --dir=$dir --id=$id | tee results/run-enc-$enc-$gem5-$gem5_branch-$bmk_ext-$nameId$(date +'%Y.%m.%d').out &
     fi
     cd $curDIR
 done

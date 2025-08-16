@@ -14,7 +14,7 @@ gem5_branch=${gem5_branch:-} # se, se-ext
 bmk=${bmk:-} # name of bmk dir
 enc=${enc:-} # encryption latency
 dir=${dir:-} # directory for pin taint metadata
-
+id=${id:-} # experiment id
 while [ $# -gt 0 ]; do
   case "$1" in
     --gem5=*)
@@ -34,6 +34,9 @@ while [ $# -gt 0 ]; do
       ;;
     --dir=*)
       dir="${1#*=}"
+      ;;
+    --id=*)
+      id="${1#*=}"
       ;;
     *)
       printf "***************************\n"
@@ -96,7 +99,12 @@ fi
 $GEM5_DIR/build/X86/gem5.opt $EXTRA_FLAG --debug-file=debug.out --stats-file=stats.txt $CONFIG_FILE $encryption
 
 cd $CUR_DIR
-m5dir=m5out-enc-$encryption-$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
+
+nameId=$id
+if [ -n "$nameId" ]; then
+  nameId=$id-
+fi
+m5dir=m5out-enc-$encryption-$gem5-$gem5_branch-$bmk_ext-$nameId$(date +'%Y.%m.%d-%H:%M')
 if [[ $GEM5_DEBUG == true || $GEM5_BMK_RESULTS == true ]]; then
   cp $BIN_DIR/m5out/stats.txt $RESULT_DIR/$m5dir-stats.txt
   mv $BIN_DIR/m5out $RESULT_DIR/$m5dir 

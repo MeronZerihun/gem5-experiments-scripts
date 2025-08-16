@@ -91,3 +91,51 @@ if [ "$1" == "se-ext" ]; then
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=$1 --bmk_ext=enc --enc=$KCIPHER_320 --dir=$2-bin-$1
 
 fi
+# SE with 320-bit struct, 2x loads, and encryption latency
+if [ "$1" == "se-ext-opt-no-hash" ]; then
+
+    myGem5=se
+    myBmk=se-ext
+
+    # Build gem5
+    cd $GEM5_DIR
+    git checkout $myGem5
+    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+
+    # Set encrypted library
+    cd $BENCHMARK_HOME_DIR
+    ln -sf configs/config.mk.$myBmk config.mk
+    ln -sf configs/config.h.$myBmk config.h
+    
+    # Build benchmarks, generate taints
+    cd $curDIR
+    ./build-all-benchmarks.sh $myBmk $2-bin-$myBmk
+    ./generate-all-metadata.sh --dir=$2-bin-$myBmk
+    
+    # Run gem5
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=$myGem5 --bmk_ext=enc --enc=$KCIPHER_128 --dir=$2-bin-$myBmk --id=$1
+fi
+# SE with 320-bit struct, 5x loads, and encryption latency
+if [ "$1" == "se-ext-no-hash" ]; then
+
+    myGem5=$1
+    myBmk=se-ext
+
+    # Build gem5
+    cd $GEM5_DIR
+    git checkout $myGem5
+    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+
+    # Set encrypted library
+    cd $BENCHMARK_HOME_DIR
+    ln -sf configs/config.mk.$myBmk config.mk
+    ln -sf configs/config.h.$myBmk config.h
+    
+    # Build benchmarks, generate taints
+    cd $curDIR
+    ./build-all-benchmarks.sh $myBmk $2-bin-$myBmk
+    ./generate-all-metadata.sh --dir=$2-bin-$myBmk
+    
+    # Run gem5
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=$myGem5 --bmk_ext=enc --enc=$KCIPHER_128 --dir=$2-bin-$myBmk --id=$1
+fi
