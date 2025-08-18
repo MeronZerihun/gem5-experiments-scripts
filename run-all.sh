@@ -5,8 +5,8 @@ source ~/ZeroRISC/gem5-experiments-scripts/paths.sh
 AES_128=40
 KCIPHER_128=3 
 KCIPHER_320=4 
-# Auth. encryption using OCB mode: https://eprint.iacr.org/2001/026.pdf
-KCIPHER_192_OCB=10 
+# OCB mode: https://eprint.iacr.org/2001/026.pdf
+KCIPHER_OCB=10 
 
 curDIR=$PWD
 
@@ -112,7 +112,7 @@ if [ "$1" == "se-ext-opt-no-hash" ]; then
     ./build-all-benchmarks.sh $myBmk $2-bin-$myBmk
     ./generate-all-metadata.sh --dir=$2-bin-$myBmk
     
-    # Run gem5
+    # Run gem5 (Check: should encryption latency be 128 or 320-bit?)
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=$myGem5 --bmk_ext=enc --enc=$KCIPHER_128 --dir=$2-bin-$myBmk --id=$1
 fi
 # SE with 320-bit struct, 5x loads, and encryption latency
@@ -137,5 +137,53 @@ if [ "$1" == "se-ext-no-hash" ]; then
     ./generate-all-metadata.sh --dir=$2-bin-$myBmk
     
     # Run gem5
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=$myGem5 --bmk_ext=enc --enc=$KCIPHER_320 --dir=$2-bin-$myBmk --id=$1
+fi
+# Ideal: SE with 128-bit struct, 2x loads, Encryption latency, Hash Latency
+if [ "$1" == "se-hash" ]; then
+
+    myGem5=$1
+    myBmk=se
+
+    # Build gem5
+    cd $GEM5_DIR
+    git checkout $myGem5
+    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+
+    # Set encrypted library
+    cd $BENCHMARK_HOME_DIR
+    ln -sf configs/config.mk.$myBmk config.mk
+    ln -sf configs/config.h.$myBmk config.h
+    
+    # Build benchmarks, generate taints
+    cd $curDIR
+    ./build-all-benchmarks.sh $myBmk $2-bin-$myBmk
+    ./generate-all-metadata.sh --dir=$2-bin-$myBmk
+    
+    # Run gem5
     ./run-gem5-experiments.sh --gem5=priv --gem5_branch=$myGem5 --bmk_ext=enc --enc=$KCIPHER_128 --dir=$2-bin-$myBmk --id=$1
+fi
+# SE with 448-bit struct, SE (2 loads) + 5 loads, Authenticated encryption + hash latency
+if [ "$1" == "se-ext-ae" ]; then
+
+    myGem5=$1
+    myBmk=$1
+
+    # Build gem5
+    cd $GEM5_DIR
+    git checkout $myGem5
+    CC=gcc-5 CXX=g++-5 scons build/X86/gem5.opt -j8
+
+    # Set encrypted library
+    cd $BENCHMARK_HOME_DIR
+    ln -sf configs/config.mk.$myBmk config.mk
+    ln -sf configs/config.h.$myBmk config.h
+    
+    # Build benchmarks, generate taints
+    cd $curDIR
+    ./build-all-benchmarks.sh $myBmk $2-bin-$myBmk
+    ./generate-all-metadata.sh --dir=$2-bin-$myBmk
+    
+    # Run gem5
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=$myGem5 --bmk_ext=enc --enc=$KCIPHER_OCB --dir=$2-bin-$myBmk --id=$1
 fi

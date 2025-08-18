@@ -56,6 +56,8 @@ for dir in $BENCHMARK_DIRS; do
         file_lines+=("$line")
     done < $filtered_stats
 
+    rm -f $filtered_stats
+
     # Benchmark Name
     line=${file_lines[0]}, 
 
