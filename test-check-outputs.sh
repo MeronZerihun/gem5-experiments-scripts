@@ -1,6 +1,8 @@
 #!/bin/bash
 source paths.sh
 
+# Command: ./test-check-outputs.sh m5out-enc-3-priv-se-enc-2 enc
+
 curDIR=$PWD
 
 cd $BENCHMARK_HOME_DIR
@@ -8,12 +10,8 @@ cd $BENCHMARK_HOME_DIR
 for dir in $BENCHMARK_DIRS; do
 
     # Check gem5 benchmark output with native output
-    check=$(diff $dir/$dir.enc.out $dir/results/m5out-enc-3*/$dir.enc.out | grep "^[<>]" | wc -l)
+    check=$(diff $dir/$dir.$2.out $dir/results/$1*/$dir.enc.out | grep "^[<>]" | wc -l)
     
-    if [ $1 == "se-ext" ]; then
-        check=$(diff $dir/$dir.enc.out $dir/results/m5out-enc-4*/$dir.enc.out | grep "^[<>]" | wc -l)
-    fi
-
     if [ $check -gt 0 ]; then
         echo -e "\033[0;31mgem5 result for $dir is incorrect.\033[0m"
     else

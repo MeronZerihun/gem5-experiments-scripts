@@ -87,16 +87,27 @@ printf "%%%% ${RED}WARNING:${NC} gem5 configuration files have not been update f
 
 cd $BIN_DIR
 
-# Default: AES-128 Latency
-encryption=40
-
 ln -sf $GEM5_DIR/ext/ ./ext
 
-if [ -n "$enc" ]; then
-  encryption=$enc
+m5dir=m5out-$nameId$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
+if [ "$gem5" != "clean" ]; then
+  # Default: AES-128 Latency
+  encryption=40
+  if [ -z "$enc" ]; then
+    enc=$encryption
+  fi
+  m5dir=m5out-enc-$enc-$nameId$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
 fi
 
-$GEM5_DIR/build/X86/gem5.opt $EXTRA_FLAG --debug-file=debug.out --stats-file=stats.txt $CONFIG_FILE $encryption
+
+if [ -z "$enc" ]; then
+  $GEM5_DIR/build/X86/gem5.opt $EXTRA_FLAG --debug-file=debug.out --stats-file=stats.txt $CONFIG_FILE 
+else
+  $GEM5_DIR/build/X86/gem5.opt $EXTRA_FLAG --debug-file=debug.out --stats-file=stats.txt $CONFIG_FILE $enc
+ 
+fi
+
+$GEM5_DIR/build/X86/gem5.opt $EXTRA_FLAG --debug-file=debug.out --stats-file=stats.txt $CONFIG_FILE $enc
 
 cd $CUR_DIR
 
@@ -104,7 +115,7 @@ nameId=$id
 if [ -n "$nameId" ]; then
   nameId=$id-
 fi
-m5dir=m5out-enc-$encryption-$gem5-$gem5_branch-$bmk_ext-$nameId$(date +'%Y.%m.%d-%H:%M')
+
 if [[ $GEM5_DEBUG == true || $GEM5_BMK_RESULTS == true ]]; then
   cp $BIN_DIR/m5out/stats.txt $RESULT_DIR/$m5dir-stats.txt
   mv $BIN_DIR/m5out $RESULT_DIR/$m5dir 

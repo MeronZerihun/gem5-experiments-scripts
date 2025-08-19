@@ -69,9 +69,9 @@ for bmk in $BENCHMARK_DIRS; do
     mkdir -p results
     if [ -z "$enc" ]; then
       echo No encryption latency provided!
-      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --dir=$dir --id=$id | tee results/run-$gem5-$gem5_branch-$bmk_ext-$nameId$(date +'%Y.%m.%d').out &
+      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --dir=$dir --id=$id | tee results/run-$nameId$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d').out &
     else
-      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --enc=$enc --dir=$dir --id=$id | tee results/run-enc-$enc-$gem5-$gem5_branch-$bmk_ext-$nameId$(date +'%Y.%m.%d').out &
+      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --enc=$enc --dir=$dir --id=$id | tee results/run-enc-$enc-$nameId$gem5-$gem5_branch-$bmk_ext-$nameId$(date +'%Y.%m.%d').out &
     fi
     cd $curDIR
 done
