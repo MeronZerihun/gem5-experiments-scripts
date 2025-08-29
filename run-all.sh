@@ -50,7 +50,7 @@ if [[ "$1" == "na" || "$1" == "do" ]]; then
     ./build-all-benchmarks.sh
     
     # Run gem5
-    ./run-gem5-experiments.sh --gem5=clean --gem5_branch=master --bmk_ext=$1 --dir=$2-bin-se
+    ./run-gem5-experiments.sh --gem5=clean --gem5_branch=master --bmk_ext=$1 --dir=$2-bin-se --id=$1
 fi
 if [ "$1" == "se" ]; then
     # Build gem5
@@ -69,7 +69,7 @@ if [ "$1" == "se" ]; then
     ./generate-all-metadata.sh --dir=$2-bin-$1
     
     # Run gem5
-    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=$1 --bmk_ext=enc --enc=$KCIPHER_128 --dir=$2-bin-$1
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=$1 --bmk_ext=enc --enc=$KCIPHER_128 --dir=$2-bin-$1 --id=$1
 fi
 # SE with 320-bit struct, 2x loads, and encryption latency
 if [ "$1" == "se-ext-opt-no-hash" ]; then
@@ -137,7 +137,7 @@ if [ "$1" == "se-ext" ]; then
     ./generate-all-metadata.sh --dir=$2-bin-$1
     
     # Run gem5
-    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=$1 --bmk_ext=enc --enc=$KCIPHER_320 --dir=$2-bin-$1
+    ./run-gem5-experiments.sh --gem5=priv --gem5_branch=$1 --bmk_ext=enc --enc=$KCIPHER_320 --dir=$2-bin-$1 --id=$1
 
 fi
 

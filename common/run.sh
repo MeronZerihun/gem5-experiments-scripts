@@ -89,14 +89,19 @@ cd $BIN_DIR
 
 ln -sf $GEM5_DIR/ext/ ./ext
 
-m5dir=m5out-$nameId$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
+nameId=$id
+if [ -n "$nameId" ]; then
+  nameId=$id-
+fi
+
+m5dir=m5out-$nameId$(date +'%Y.%m.%d-%H:%M')
 if [ "$gem5" != "clean" ]; then
   # Default: AES-128 Latency
   encryption=40
   if [ -z "$enc" ]; then
     enc=$encryption
   fi
-  m5dir=m5out-enc-$enc-$nameId$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d-%H:%M')
+  m5dir=m5out-enc-$enc-$nameId$(date +'%Y.%m.%d-%H:%M')
 fi
 
 
@@ -110,11 +115,6 @@ fi
 $GEM5_DIR/build/X86/gem5.opt $EXTRA_FLAG --debug-file=debug.out --stats-file=stats.txt $CONFIG_FILE $enc
 
 cd $CUR_DIR
-
-nameId=$id
-if [ -n "$nameId" ]; then
-  nameId=$id-
-fi
 
 if [[ $GEM5_DEBUG == true || $GEM5_BMK_RESULTS == true ]]; then
   cp $BIN_DIR/m5out/stats.txt $RESULT_DIR/$m5dir-stats.txt

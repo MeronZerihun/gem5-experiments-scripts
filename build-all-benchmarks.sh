@@ -7,7 +7,7 @@ echo "%% Building all benchmarks... "
 for dir in $BENCHMARK_DIRS; do
     cd $BENCHMARK_HOME_DIR/$dir
 
-    if [[ $1 == "se" || $1 == "se-ext" ]]; then
+    if [[ $1 =~ "se" ]]; then
         if [ -f "$2/$dir.enc" ]; then
             echo "%% Binary for $dir already exists"
             cd $curDIR

@@ -42,9 +42,9 @@ if [ $gem5 == "priv" ]; then
     exit 1
   fi
 else
-  if [ $cmd_args != 4 ]; then
+  if [ $cmd_args -lt 4 ]; then
     printf "%%%% ${RED}ERROR:${NC} Invalid arguments\n"
-    printf "%%%% Example Usage: ./run-gem5-experiments.sh --gem5=clean --bmk_ext=enc --gem5_branch=opt-se-128 --dir=dev-bin-se\n"
+    printf "%%%% Example Usage: ./run-gem5-experiments.sh --gem5=clean --bmk_ext=enc --gem5_branch=na --dir=dev-bin-na\n"
     exit 1
   fi
 fi
@@ -69,9 +69,9 @@ for bmk in $BENCHMARK_DIRS; do
     mkdir -p results
     if [ -z "$enc" ]; then
       echo No encryption latency provided!
-      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --dir=$dir --id=$id | tee results/run-$nameId$gem5-$gem5_branch-$bmk_ext-$(date +'%Y.%m.%d').out &
+      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --dir=$dir --id=$id | tee results/run-$nameId$(date +'%Y.%m.%d').out &
     else
-      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --enc=$enc --dir=$dir --id=$id | tee results/run-enc-$enc-$nameId$gem5-$gem5_branch-$bmk_ext-$nameId$(date +'%Y.%m.%d').out &
+      ./run.sh --bmk=$bmk --gem5=$gem5 --bmk_ext=$bmk_ext --gem5_branch=$gem5_branch --enc=$enc --dir=$dir --id=$id | tee results/run-enc-$enc-$nameId$(date +'%Y.%m.%d').out &
     fi
     cd $curDIR
 done
