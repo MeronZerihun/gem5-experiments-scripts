@@ -1,5 +1,5 @@
 #!/bin/bash
-# Command: ./stats-get-final-ticks.sh run-enc-3 se
+# Command: ./stats-get-final-ticks.sh r*se-ext-opt-no-hash-2025* se-ext-opt-no-hash
 source paths.sh
 
 curDIR=$PWD
